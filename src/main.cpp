@@ -3,6 +3,7 @@
 #include <string>
 #include <array>
 
+#include "converter/reader/ireader.hpp"
 #include "geometry/triangle.hpp"
 #include "utility.hpp"
 
@@ -10,7 +11,7 @@ int main(int argc, char* argv[])
 {
     if ( argc != 3 )
     {
-        Utility::displayHelp(argc, argv);
+        Utility::displayHelp(argv);
         return 1;
     }
 
@@ -25,11 +26,22 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    const std::string input_extension = input_filename.substr(input_filename.find_last_of('.') + 1);
-    const std::string output_extension = output_filename.substr(input_filename.find_last_of('.') + 1);
+    const auto input_extension = Utility::convertInputFormatToEnum(input_filename.substr(input_filename.find_last_of('.') + 1));
+    const auto output_extension = Utility::convertOutputFormatToEnum(output_filename.substr(output_filename.find_last_of('.') + 1));
 
+    if (!Utility::isSupportedInputFormat(input_extension))
+    {
+        std::cerr << "ERROR: Input file format not supported." << std::endl;
+        return 1;
+    }
 
-    std::cout << input_extension;
+    if (!Utility::isSupportedOutputFormat(output_extension))
+    {
+        std::cerr << "ERROR: Output file format not supported." << std::endl;
+        return 1;
+    }
+    
+    auto reader = Utility::getFormatReader(input_extension);
 
 	return 0;
 }

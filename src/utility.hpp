@@ -3,21 +3,40 @@
 
 #include <cstdint>
 #include <array>
+#include <string>
+#include <memory>
+#include <utility>
+
+class IReader;
 
 namespace Utility {
-    static constexpr std::array<const char*, 3> supported_input_extensions{
-        "obj"
+    // Update these when adding new extension
+    enum class InputFormat {
+        OBJ,
+        INVALID
     };
 
-    static constexpr std::array<const char*, 1> supported_output_extensions{
-        "stl"
+    enum class OutputFormat {
+        STL,
+        INVALID
     };
+
+    static constexpr std::array<std::pair<const char*, InputFormat>, 1> input_formats {
+        std::make_pair("obj", InputFormat::OBJ)
+    };
+
+    static constexpr std::array<std::pair<const char*, OutputFormat>, 1> output_formats {
+        std::make_pair("stl", OutputFormat::STL)
+    };
+    // Update until here
 
     // if system is big endian will need to reverse order when writing stl file
     bool isLittleEndian();
-    bool isSupportedInputFormat(const std::string& format);
-    bool isSupportedOutputFormat(const std::string& format);
-    void displayHelp(int argc, char* argv[]);
+    InputFormat convertInputFormatToEnum(const std::string& format);
+    OutputFormat convertOutputFormatToEnum(const std::string& format);
+    bool isSupportedInputFormat(Utility::InputFormat format);
+    bool isSupportedOutputFormat(Utility::OutputFormat format);
+    void displayHelp(char* argv[]);
 }
 
 #endif

@@ -1,10 +1,19 @@
 #include <cstdint>
 #include <iostream>
 #include <array>
+#include <memory>
+#include <algorithm>
+#include <cctype>
+#include <algorithm>
+#include <string>
 #include <math.h>
 
 #include "utility.hpp"
+#include "converter/reader/ireader.hpp"
+#include "converter/reader/obj_reader.hpp"
 #include "geometry/vector3d.hpp"
+
+class ObjReader;
 
 bool Utility::isLittleEndian()
 {
@@ -13,45 +22,51 @@ bool Utility::isLittleEndian()
         return p[0] == 1;
 }
 
-bool Utility::isSupportedInputFormat(const std::string& format)
+Utility::InputFormat Utility::convertInputFormatToEnum(const std::string& format)
 {
-    for (const auto ext : supported_input_extensions)
-    {
-        if (format == ext)
+        auto entry = std::find_if(input_formats.begin(), input_formats.end(), [&format](const auto& format_pair) { return format_pair.first == format;});
+        if (entry != input_formats.end())
         {
-            return true;
+                return entry->second;
         }
-    }
-    return false;
+        return Utility::InputFormat::INVALID;
 }
 
-bool Utility::isSupportedOutputFormat(const std::string& format)
+Utility::OutputFormat Utility::convertOutputFormatToEnum(const std::string& format)
 {
-    for (const auto ext : supported_output_extensions)
-    {
-        if (format == ext)
+        auto entry = std::find_if(output_formats.begin(), output_formats.end(), [&format](const auto& format_pair) { return format_pair.first == format;});
+        if (entry != output_formats.end())
         {
-            return true;
+                return entry->second;
         }
-    }
-    return false;
+        return Utility::OutputFormat::INVALID;
 }
 
-void Utility::displayHelp(int argc, char* argv[])
+bool Utility::isSupportedInputFormat(Utility::InputFormat format)
+{
+    return format != Utility::InputFormat::INVALID;
+}
+
+bool Utility::isSupportedOutputFormat(Utility::OutputFormat format)
+{
+    return format != Utility::OutputFormat::INVALID;
+}
+
+void Utility::displayHelp(char* argv[])
 {
         std::cout << "Usage: "<< argv[0] <<" <inputfile> <outputfile>" << std::endl << std::endl;
         
         std::cout << "Currently supported input filetypes:" << std::endl;
-        for (const auto ext : supported_input_extensions)
+        for (const auto& format_pair : input_formats)
         {
-                std::cout << "\t" << ext << std::endl;
+                std::cout << "\t." << format_pair.first << std::endl;
         }
         std::cout << std::endl;
 
         std::cout << "Currently supported output filetypes:" << std::endl;
-        for (const auto ext : supported_output_extensions)
+        for (const auto format_pair : output_formats)
         {
-                std::cout << "\t" << ext << std::endl;
+                std::cout << "\t." << format_pair.first << std::endl;
         }
         std::cout << std::endl;
 }
