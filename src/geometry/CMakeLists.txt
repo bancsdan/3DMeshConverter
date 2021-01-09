@@ -1,5 +1,5 @@
 set(SOURCES
-   ${SOURCE}
+   ${SOURCES}
    ${CMAKE_CURRENT_SOURCE_DIR}/vector3d.cpp
    ${CMAKE_CURRENT_SOURCE_DIR}/triangle.cpp
    PARENT_SCOPE

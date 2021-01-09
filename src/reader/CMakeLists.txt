@@ -1,0 +1,11 @@
+set(SOURCES
+   ${SOURCES}
+   ${CMAKE_CURRENT_SOURCE_DIR}/ireader.cpp
+   PARENT_SCOPE
+)
+set(HEADERS
+   ${HEADERS}
+   ${CMAKE_CURRENT_SOURCE_DIR}/ireader.hpp
+   ${CMAKE_CURRENT_SOURCE_DIR}/obj_reader.hpp
+   PARENT_SCOPE
+)

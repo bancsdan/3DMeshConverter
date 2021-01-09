@@ -1,6 +1,8 @@
 set(BINARY ${CMAKE_PROJECT_NAME})
 
 add_subdirectory(geometry)
+add_subdirectory(reader)
+add_subdirectory(writer)
 
 set(SOURCES
     ${SOURCES}

@@ -3,7 +3,7 @@
 #include <string>
 #include <array>
 
-#include "converter/reader/ireader.hpp"
+#include "reader/ireader.hpp"
 #include "geometry/triangle.hpp"
 #include "utility.hpp"
 
@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
         return 1;
     }
     
-    auto reader = Utility::getFormatReader(input_extension);
+    auto reader = IReader::createReader(input_extension);
 
 	return 0;
 }

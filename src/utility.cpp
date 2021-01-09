@@ -9,11 +9,7 @@
 #include <math.h>
 
 #include "utility.hpp"
-#include "converter/reader/ireader.hpp"
-#include "converter/reader/obj_reader.hpp"
 #include "geometry/vector3d.hpp"
-
-class ObjReader;
 
 bool Utility::isLittleEndian()
 {
