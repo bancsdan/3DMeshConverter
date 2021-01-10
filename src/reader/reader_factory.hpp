@@ -10,7 +10,7 @@ class ReaderFactory
 {
 public:
     [[nodiscard]]
-    static std::unique_ptr<IReader> createReader(InputFormat format);
+    static std::unique_ptr<IReader> createReader(Reader::InputFormat format);
 };
 
 #endif

@@ -5,6 +5,8 @@
 
 #include "utility.hpp"
 #include "reader/reader_factory.hpp"
+#include "reader/supported_input_formats.hpp"
+#include "writer/supported_output_formats.hpp"
 #include "geometry/triangle.hpp"
 #include "geometry/meshdata.hpp"
 
@@ -19,16 +21,16 @@ int main(int argc, char* argv[])
     const std::string input_filename{argv[1]};
     const std::string output_filename{argv[2]};
 
-    const auto input_extension = Utility::convertInputFormatToEnum(input_filename.substr(input_filename.find_last_of('.') + 1));
-    const auto output_extension = Utility::convertOutputFormatToEnum(output_filename.substr(output_filename.find_last_of('.') + 1));
+    const auto input_extension = Reader::convertInputFormatToEnum(input_filename.substr(input_filename.find_last_of('.') + 1));
+    const auto output_extension = Writer::convertOutputFormatToEnum(output_filename.substr(output_filename.find_last_of('.') + 1));
 
-    if (!Utility::isSupportedInputFormat(input_extension))
+    if (!Reader::isSupportedInputFormat(input_extension))
     {
         std::cerr << "ERROR: Input file format not supported." << std::endl;
         return 1;
     }
 
-    if (!Utility::isSupportedOutputFormat(output_extension))
+    if (!Writer::isSupportedOutputFormat(output_extension))
     {
         std::cerr << "ERROR: Output file format not supported." << std::endl;
         return 1;

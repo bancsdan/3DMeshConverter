@@ -2,15 +2,21 @@
 #define SUPPORTED_INPUT_FORMATS_HPP
 
 #include <array>
+#include <string>
 #include <utility>
 
-enum class InputFormat {
-    OBJ,
-    INVALID
-};
+namespace Reader {
+    enum class InputFormat {
+        OBJ,
+        INVALID
+    };
 
-static constexpr std::array<std::pair<const char*, InputFormat>, 1> input_formats {
-    std::make_pair("obj", InputFormat::OBJ)
-};
+    static constexpr std::array<std::pair<const char*, InputFormat>, 1> supported_input_formats_map {
+        std::make_pair("obj", InputFormat::OBJ)
+    };
+
+    InputFormat convertInputFormatToEnum(const std::string& format);
+    bool isSupportedInputFormat(InputFormat format);
+}
 
 #endif

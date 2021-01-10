@@ -10,6 +10,7 @@
 
 #include "utility.hpp"
 #include "reader/supported_input_formats.hpp"
+#include "writer/supported_output_formats.hpp"
 #include "geometry/vector3d.hpp"
 
 bool Utility::isLittleEndian()
@@ -19,49 +20,19 @@ bool Utility::isLittleEndian()
         return p[0] == 1;
 }
 
-InputFormat Utility::convertInputFormatToEnum(const std::string& format)
-{
-        auto entry = std::find_if(input_formats.begin(), input_formats.end(), [&format](const auto& format_pair) { return format_pair.first == format;});
-        if (entry != input_formats.end())
-        {
-                return entry->second;
-        }
-        return InputFormat::INVALID;
-}
-
-Utility::OutputFormat Utility::convertOutputFormatToEnum(const std::string& format)
-{
-        auto entry = std::find_if(output_formats.begin(), output_formats.end(), [&format](const auto& format_pair) { return format_pair.first == format;});
-        if (entry != output_formats.end())
-        {
-                return entry->second;
-        }
-        return Utility::OutputFormat::INVALID;
-}
-
-bool Utility::isSupportedInputFormat(InputFormat format)
-{
-    return format != InputFormat::INVALID;
-}
-
-bool Utility::isSupportedOutputFormat(OutputFormat format)
-{
-    return format != OutputFormat::INVALID;
-}
-
 void Utility::displayHelp(char* argv[])
 {
         std::cout << "Usage: "<< argv[0] <<" <inputfile> <outputfile>" << std::endl << std::endl;
         
         std::cout << "Currently supported input filetypes:" << std::endl;
-        for (const auto& format_pair : input_formats)
+        for (const auto& format_pair : Reader::supported_input_formats_map)
         {
                 std::cout << "\t." << format_pair.first << std::endl;
         }
         std::cout << std::endl;
 
         std::cout << "Currently supported output filetypes:" << std::endl;
-        for (const auto format_pair : output_formats)
+        for (const auto format_pair : Writer::supported_output_formats_map)
         {
                 std::cout << "\t." << format_pair.first << std::endl;
         }

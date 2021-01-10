@@ -1,9 +1,11 @@
 set(SOURCES
    ${SOURCES}
+   ${CMAKE_CURRENT_SOURCE_DIR}/supported_output_formats.cpp
    PARENT_SCOPE
 )
 set(HEADERS
    ${HEADERS}
    ${CMAKE_CURRENT_SOURCE_DIR}/iwriter.hpp
+   ${CMAKE_CURRENT_SOURCE_DIR}/supported_output_formats.hpp
    PARENT_SCOPE
 )

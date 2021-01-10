@@ -3,7 +3,7 @@
 
 #include <vector>
 
-class Triangle;
+#include "triangle.hpp"
 
 struct MeshData
 {
