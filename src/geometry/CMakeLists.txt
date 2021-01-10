@@ -9,6 +9,6 @@ set(HEADERS
    ${CMAKE_CURRENT_SOURCE_DIR}/vector3d.hpp
    ${CMAKE_CURRENT_SOURCE_DIR}/triangle.hpp
    ${CMAKE_CURRENT_SOURCE_DIR}/vertexdata.hpp
-   ${CMAKE_CURRENT_SOURCE_DIR}/mesh.hpp
+   ${CMAKE_CURRENT_SOURCE_DIR}/meshdata.hpp
    PARENT_SCOPE
 )

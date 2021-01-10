@@ -7,22 +7,17 @@
 #include <memory>
 #include <utility>
 
+#include "reader/supported_input_formats.hpp"
+
 class IReader;
 
 namespace Utility {
     // Update these when adding new extension
-    enum class InputFormat {
-        OBJ,
-        INVALID
-    };
+
 
     enum class OutputFormat {
         STL,
         INVALID
-    };
-
-    static constexpr std::array<std::pair<const char*, InputFormat>, 1> input_formats {
-        std::make_pair("obj", InputFormat::OBJ)
     };
 
     static constexpr std::array<std::pair<const char*, OutputFormat>, 1> output_formats {
@@ -34,8 +29,8 @@ namespace Utility {
     bool isLittleEndian();
     InputFormat convertInputFormatToEnum(const std::string& format);
     OutputFormat convertOutputFormatToEnum(const std::string& format);
-    bool isSupportedInputFormat(Utility::InputFormat format);
-    bool isSupportedOutputFormat(Utility::OutputFormat format);
+    bool isSupportedInputFormat(InputFormat format);
+    bool isSupportedOutputFormat(OutputFormat format);
     void displayHelp(char* argv[]);
 }
 

@@ -5,10 +5,11 @@
 #include <algorithm>
 #include <cctype>
 #include <algorithm>
-#include <string>
+#include <string_view>
 #include <math.h>
 
 #include "utility.hpp"
+#include "reader/supported_input_formats.hpp"
 #include "geometry/vector3d.hpp"
 
 bool Utility::isLittleEndian()
@@ -18,14 +19,14 @@ bool Utility::isLittleEndian()
         return p[0] == 1;
 }
 
-Utility::InputFormat Utility::convertInputFormatToEnum(const std::string& format)
+InputFormat Utility::convertInputFormatToEnum(const std::string& format)
 {
         auto entry = std::find_if(input_formats.begin(), input_formats.end(), [&format](const auto& format_pair) { return format_pair.first == format;});
         if (entry != input_formats.end())
         {
                 return entry->second;
         }
-        return Utility::InputFormat::INVALID;
+        return InputFormat::INVALID;
 }
 
 Utility::OutputFormat Utility::convertOutputFormatToEnum(const std::string& format)
@@ -38,14 +39,14 @@ Utility::OutputFormat Utility::convertOutputFormatToEnum(const std::string& form
         return Utility::OutputFormat::INVALID;
 }
 
-bool Utility::isSupportedInputFormat(Utility::InputFormat format)
+bool Utility::isSupportedInputFormat(InputFormat format)
 {
-    return format != Utility::InputFormat::INVALID;
+    return format != InputFormat::INVALID;
 }
 
-bool Utility::isSupportedOutputFormat(Utility::OutputFormat format)
+bool Utility::isSupportedOutputFormat(OutputFormat format)
 {
-    return format != Utility::OutputFormat::INVALID;
+    return format != OutputFormat::INVALID;
 }
 
 void Utility::displayHelp(char* argv[])

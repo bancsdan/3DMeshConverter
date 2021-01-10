@@ -1,14 +1,15 @@
 #ifndef IREADER_HPP
 #define IREADER_HPP
 
-#include <memory>
+#include <fstream>
 
-#include "utility.hpp"
+struct MeshData;
 
 class IReader
 {
 public:
-    static std::unique_ptr<IReader> createReader(Utility::InputFormat format);
+    virtual ~IReader() = 0;
+    virtual MeshData read(std::ifstream& in_file) = 0;
 };
 
 #endif
