@@ -10,10 +10,10 @@ std::unique_ptr<IReader> ReaderFactory::createReader(Reader::InputFormat format)
     switch (format)
         {
         case Reader::InputFormat::OBJ:
-                return std::unique_ptr<ObjReader>(new ObjReader());
+                return std::make_unique<ObjReader>();
                 break;        
         default:
-                return std::unique_ptr<IReader>(nullptr);
+                return nullptr;
                 break;
         }
 }

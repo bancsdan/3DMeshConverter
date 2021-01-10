@@ -1,15 +1,15 @@
 #ifndef IREADER_HPP
 #define IREADER_HPP
 
-#include <fstream>
+#include <string>
 
 struct MeshData;
 
 class IReader
 {
 public:
-    virtual ~IReader() = 0;
-    virtual MeshData read(std::ifstream& in_file) = 0;
+    virtual ~IReader() = default;
+    virtual MeshData read(const std::string& file_name) = 0;
 };
 
 #endif

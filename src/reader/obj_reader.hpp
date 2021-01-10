@@ -8,7 +8,8 @@
 class ObjReader final : public IReader
 {
 public:
-    MeshData read(std::ifstream& in_file) final override;
+    ~ObjReader() = default;
+    MeshData read(const std::string& in_file) final override;
 };
 
 #endif

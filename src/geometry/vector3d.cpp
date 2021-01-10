@@ -1,6 +1,7 @@
 #include <math.h>
 
 #include "vector3d.hpp"
+#include "utility.hpp"
 
 Vector3d::Vector3d(double x, double y, double z) : m_x(x), m_y(y), m_z(z)
 {
@@ -27,6 +28,8 @@ Vector3d operator*(const Vector3d&  lhs, double  scale) noexcept
 }
 
 Vector3d operator/(const Vector3d&  lhs, double  scale) noexcept
-{
-    return {lhs.m_x / scale, lhs.m_y / scale, lhs.m_z / scale};
+{   
+    if(!Utility::isEqual(scale, 0.0))
+        return {lhs.m_x / scale, lhs.m_y / scale, lhs.m_z / scale};
+    return {};
 }

@@ -6,6 +6,7 @@ set(SOURCES
    ${CMAKE_CURRENT_SOURCE_DIR}/supported_input_formats.cpp
    PARENT_SCOPE
 )
+
 set(HEADERS
    ${HEADERS}
    ${CMAKE_CURRENT_SOURCE_DIR}/ireader.hpp
