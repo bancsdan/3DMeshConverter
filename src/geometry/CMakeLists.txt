@@ -1,12 +1,10 @@
 set(SOURCES
    ${SOURCES}
-   ${CMAKE_CURRENT_SOURCE_DIR}/vector3d.cpp
    ${CMAKE_CURRENT_SOURCE_DIR}/triangle.cpp
    PARENT_SCOPE
 )
 set(HEADERS
    ${HEADERS}
-   ${CMAKE_CURRENT_SOURCE_DIR}/vector3d.hpp
    ${CMAKE_CURRENT_SOURCE_DIR}/triangle.hpp
    ${CMAKE_CURRENT_SOURCE_DIR}/vertexdata.hpp
    ${CMAKE_CURRENT_SOURCE_DIR}/meshdata.hpp

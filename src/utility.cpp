@@ -11,8 +11,10 @@
 #include "utility.hpp"
 #include "reader/supported_input_formats.hpp"
 #include "writer/supported_output_formats.hpp"
-#include "geometry/vector3d.hpp"
 
+/*
+ * Source: https://stackoverflow.com/questions/4239993/determining-endianness-at-compile-time
+ */
 bool Utility::isLittleEndian()
 {
         int16_t i = 1;
@@ -53,10 +55,15 @@ std::vector<std::string> Utility::splitString(const std::string& str, std::strin
 
         while((end = str.find(delim, start)) != std::string::npos)
         {
-                const std::string word = str.substr(start, end);
+                const std::string word = str.substr(start, end-start);
                 result.push_back(word);
-                start = end + 1;
+                start = end+1;
         }
-
+        result.push_back(str.substr(start));
         return result;
+}
+
+bool Utility::startsWith(const std::string& str, const char* start)
+{
+        return str.rfind(start, 0) == 0;
 }

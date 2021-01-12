@@ -18,11 +18,6 @@ set(HEADERS
 add_executable(${BINARY}_run ${SOURCES} ${HEADERS})
 add_library(${BINARY}_lib STATIC ${SOURCES} ${HEADERS})
 
-find_package(Eigen3 3.3 REQUIRED NO_MODULE)
-
-target_link_libraries(${BINARY}_run Eigen3::Eigen)
-target_link_libraries(${BINARY}_lib Eigen3::Eigen)
-
 target_include_directories(${BINARY}_run PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
 

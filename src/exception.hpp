@@ -9,4 +9,9 @@ class FileNotFoundException final : public std::exception
   const char* what() const final override;
 };
 
+class IllFormedFileException final : public std::exception
+{
+  const char* what() const final override;
+};
+
 #endif

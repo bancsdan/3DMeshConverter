@@ -2,16 +2,15 @@
 #define VERTEXDATA_HPP
 
 #include <string>
-#include "vector3d.hpp"
+#include <Eigen/Dense>
 
 struct VertexData {
-    Vector3d m_pos;
-    Vector3d m_normal;
-    Vector3d m_texture;
-    Vector3d m_color;
+    Eigen::Vector4d m_pos;
+    Eigen::Vector4d m_normal;
+    Eigen::Vector4d m_texture;
 
     VertexData() = default;
-    VertexData(const Vector3d& pos) : m_pos(pos) {}
+    VertexData(const Eigen::Vector4d& pos) : m_pos(pos) {}
 };
 
 #endif
