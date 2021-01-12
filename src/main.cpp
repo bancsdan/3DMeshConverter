@@ -22,32 +22,50 @@ int main(int argc, char* argv[])
     const std::string input_filename{argv[1]};
     const std::string output_filename{argv[2]};
 
-    const auto input_extension = Reader::convertInputFormatToEnum(std::filesystem::path(input_filename).extension().string());
-    const auto output_extension = Writer::convertOutputFormatToEnum(std::filesystem::path(output_filename).extension().string());
+    auto input_extension = Utility::toLower(std::filesystem::path(input_filename).extension().string());
+    auto output_extension = Utility::toLower(std::filesystem::path(output_filename).extension().string());
 
-    if (!Reader::isSupportedInputFormat(input_extension))
+    const auto input_extension_enum = Reader::convertInputFormatToEnum(input_extension);
+    const auto output_extension_enum = Writer::convertOutputFormatToEnum(output_extension);
+
+    if (!Reader::isSupportedInputFormat(input_extension_enum))
     {
         std::cerr << "ERROR: Input file format not supported." << std::endl;
         return 1;
     }
 
-    if (!Writer::isSupportedOutputFormat(output_extension))
+    if (!Writer::isSupportedOutputFormat(output_extension_enum))
     {
         std::cerr << "ERROR: Output file format not supported." << std::endl;
         return 1;
     }
     
-    auto reader = ReaderFactory::createReader(input_extension);
+    auto reader = ReaderFactory::createReader(input_extension_enum);
 
     try
     {
-        MeshData mesh = reader->read(input_filename);
+        if(reader)
+        {
+            MeshData mesh = reader->read(input_filename);
+        }
     }
     catch(const std::exception& e)
     {
         std::cerr << "ERROR: " << e.what() << std::endl;
     }
-    
+
+    //ApplyTranformation(mesh, tranfrom);
+
+    /*
+    try
+    {
+        MeshData mesh = Writer->write(output_filename, mesh);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "ERROR: " << e.what() << std::endl;
+    }
+    */
 
 	return 0;
 }

@@ -12,7 +12,7 @@ namespace Reader {
     };
 
     static constexpr std::array<std::pair<const char*, InputFormat>, 1> supported_input_formats_map {
-        std::make_pair("obj", InputFormat::OBJ)
+        std::make_pair(".obj", InputFormat::OBJ)
     };
 
     InputFormat convertInputFormatToEnum(const std::string& format);

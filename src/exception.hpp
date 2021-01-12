@@ -4,9 +4,9 @@
 
 #include <exception>
 
-class FileNotFoundException : public std::exception
+class FileNotFoundException final : public std::exception
 {
-  virtual const char* what() const override;
+  const char* what() const final override;
 };
 
 #endif

@@ -18,19 +18,24 @@ set(HEADERS
 add_executable(${BINARY}_run ${SOURCES} ${HEADERS})
 add_library(${BINARY}_lib STATIC ${SOURCES} ${HEADERS})
 
+find_package(Eigen3 3.3 REQUIRED NO_MODULE)
+
+target_link_libraries(${BINARY}_run Eigen3::Eigen)
+target_link_libraries(${BINARY}_lib Eigen3::Eigen)
+
 target_include_directories(${BINARY}_run PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
 
 target_include_directories(${BINARY}_lib PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
 
-set_property(TARGET ${BINARY}_run PROPERTY CXX_STANDARD 17)
-set_property(TARGET ${BINARY}_lib PROPERTY CXX_STANDARD 17)
-set_property(TARGET ${BINARY}_run PROPERTY CMAKE_CXX_STANDARD_REQUIRED True)
-set_property(TARGET ${BINARY}_lib PROPERTY CMAKE_CXX_STANDARD_REQUIRED True)
+target_compile_features(${BINARY}_run PRIVATE cxx_std_17)
+target_compile_features(${BINARY}_lib PRIVATE cxx_std_17)
 
 if(MSVC)
   target_compile_options(${BINARY}_run PRIVATE /W4 /WX)
+  target_compile_options(${BINARY}_lib PRIVATE /W4 /WX)
 else()
-  target_compile_options(${BINARY}_run PRIVATE -Wall -Wextra -pedantic -Werror)
+  target_compile_options(${BINARY}_run PRIVATE -Werror -Wall -Wextra -pedantic -O3)
+  target_compile_options(${BINARY}_lib PRIVATE -Werror -Wall -Wextra -pedantic -O3)
 endif()
