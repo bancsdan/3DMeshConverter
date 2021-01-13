@@ -1,3 +1,6 @@
+#include <string>
+#include <cstring>
+
 #include "exception.hpp"
 
 const char* FileNotFoundException::what() const

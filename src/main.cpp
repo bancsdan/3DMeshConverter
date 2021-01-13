@@ -41,17 +41,19 @@ int main(int argc, char* argv[])
     }
     
     auto reader = ReaderFactory::createReader(input_extension_enum);
-
+    
+    MeshData mesh;
     try
     {
         if(reader)
         {
-            MeshData mesh = reader->read(input_filename);
+            mesh = reader->read(input_filename);
         }
     }
     catch(const std::exception& e)
     {
         std::cerr << "ERROR: " << e.what() << std::endl;
+        return 1;
     }
 
     //ApplyTranformation(mesh, tranfrom);

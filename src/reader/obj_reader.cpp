@@ -43,7 +43,7 @@ MeshData ObjReader::read(const std::string& file_name)
             }
             else if(Utility::startsWith(lineVect[0], f))
             {
-                readFace(lineVect, result);
+                readFace(lineVect, vertices, vertex_textures, vertex_normals, result);
             }            
             else if (Utility::startsWith(lineVect[0], "mtllib"))
             {
@@ -55,9 +55,6 @@ MeshData ObjReader::read(const std::string& file_name)
         }
 
     }
-
-    //for (const auto& ve: vertices)
-    //    std::cout << "x: " << ve[0] << "y: " << ve[1] << "z: " << ve[2] << "w: " << ve[3] << '\n';
 
     return result;
 }
@@ -79,8 +76,69 @@ void ObjReader::readVector(const std::vector<std::string>& line, std::vector<Eig
     vectors.push_back(vec);
 }
 
-void ObjReader::readFace(const std::vector<std::string>& line, MeshData& mesh) const
+void ObjReader::readFace(const std::vector<std::string>& line,
+    const std::vector<Eigen::Vector4d>& vertices,
+    const std::vector<Eigen::Vector4d>& vertex_textures,
+    const std::vector<Eigen::Vector4d>& vertex_normals,
+    MeshData& mesh) const
 {
-    (void)line;
-    (void)mesh;
+    if (line.size() < 4)
+    {
+        throw IllFormedFileException();
+    }
+
+    std::vector<const Eigen::Vector4d*> face_vertices;
+    std::vector<const Eigen::Vector4d*> face_vertex_textures;
+    std::vector<const Eigen::Vector4d*> face_vertex_normals;
+    for (auto it = line.begin() + 1; it != line.end(); ++it)
+    {
+        const auto face_vertex_str = Utility::splitString(*it, '/');
+        const auto face_vertex_str_size = face_vertex_str.size();
+        if (face_vertex_str.size() == 3)
+        {
+            face_vertices.push_back(&vertices[std::stoi(face_vertex_str[0]) - 1] );
+            if (!face_vertex_str[1].empty())
+                face_vertex_textures.push_back(&vertex_textures[std::stoi(face_vertex_str[1])  - 1]);
+            if (!face_vertex_str[2].empty())
+                face_vertex_normals.push_back(&vertex_normals[std::stoi(face_vertex_str[2])  - 1]);
+        }
+        else
+        {
+            throw IllFormedFileException();
+        }        
+    }
+
+    if (face_vertex_textures.size() != 0 && face_vertex_textures.size() != face_vertices.size())
+    {
+        throw IllFormedFileException();
+    }
+    if (face_vertex_normals.size() != 0 && face_vertex_normals.size() != face_vertices.size())
+    {
+        throw IllFormedFileException();
+    }
+
+    for (std::size_t i = 0; i < face_vertices.size() - 2; ++i)
+    {
+        Triangle triangle;
+
+        triangle.m_a.m_pos = *face_vertices[0];
+        triangle.m_b.m_pos = *face_vertices[i+1];
+        triangle.m_c.m_pos = *face_vertices[i+2];
+
+        if (face_vertex_textures.size() != 0)
+        {
+            triangle.m_a.m_texture = *face_vertex_textures[0];
+            triangle.m_b.m_texture = *face_vertex_textures[i+1];
+            triangle.m_c.m_texture = *face_vertex_textures[i+2];
+        }
+
+        if (face_vertex_normals.size() != 0)
+        {
+            triangle.m_a.m_normal = *face_vertex_normals[0];
+            triangle.m_b.m_normal = *face_vertex_normals[i+1];
+            triangle.m_c.m_normal = *face_vertex_normals[i+2];
+        }
+
+        mesh.m_triangles.push_back(std::move(triangle));
+    }
 }

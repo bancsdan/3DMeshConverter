@@ -17,7 +17,11 @@ class ObjReader final : public IReader
     static constexpr char* vn = "vn";
     static constexpr char* vt = "vt";
 
-    void readFace(const std::vector<std::string>& line, MeshData& mesh) const;
+    void readFace(const std::vector<std::string>& line,
+        const std::vector<Eigen::Vector4d>& vertices,
+        const std::vector<Eigen::Vector4d>& vertex_textures,
+        const std::vector<Eigen::Vector4d>& vertex_normals,
+        MeshData& mesh) const;
     void readVector(const std::vector<std::string>& line, std::vector<Eigen::Vector4d>& vectors) const;
 public:
     ~ObjReader() = default;
