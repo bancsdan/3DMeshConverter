@@ -29,23 +29,23 @@ MeshData ObjReader::read(const std::string& file_name)
 
         if (!lineVect.empty())
         {
-            if (Utility::startsWith(lineVect[0], vn))
+            if (Utility::startsWith(lineVect[0], c_vn))
             {
                 readVector(lineVect, vertex_normals);
             }
-            else if (Utility::startsWith(lineVect[0], vt))
+            else if (Utility::startsWith(lineVect[0], c_vt))
             {
                 readVector(lineVect, vertex_textures);
             }
-            else if (Utility::startsWith(lineVect[0], v))
+            else if (Utility::startsWith(lineVect[0], c_v))
             {
                 readVector(lineVect, vertices);
             }
-            else if(Utility::startsWith(lineVect[0], f))
+            else if(Utility::startsWith(lineVect[0], c_f))
             {
                 readFace(lineVect, vertices, vertex_textures, vertex_normals, result);
             }            
-            else if (Utility::startsWith(lineVect[0], "mtllib"))
+            else if (Utility::startsWith(lineVect[0], c_mtllib))
             {
                 if (lineVect.size() > 1)
                 {
@@ -93,14 +93,17 @@ void ObjReader::readFace(const std::vector<std::string>& line,
     for (auto it = line.begin() + 1; it != line.end(); ++it)
     {
         const auto face_vertex_str = Utility::splitString(*it, '/');
-        const auto face_vertex_str_size = face_vertex_str.size();
         if (face_vertex_str.size() == 3)
         {
             face_vertices.push_back(&vertices[std::stoi(face_vertex_str[0]) - 1] );
             if (!face_vertex_str[1].empty())
+            {
                 face_vertex_textures.push_back(&vertex_textures[std::stoi(face_vertex_str[1])  - 1]);
+            }
             if (!face_vertex_str[2].empty())
+            {
                 face_vertex_normals.push_back(&vertex_normals[std::stoi(face_vertex_str[2])  - 1]);
+            }
         }
         else
         {

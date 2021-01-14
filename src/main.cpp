@@ -3,10 +3,12 @@
 #include <string>
 #include <array>
 #include <filesystem>
+#include <limits>
 
 #include "utility.hpp"
 #include "reader/reader_factory.hpp"
 #include "reader/supported_input_formats.hpp"
+#include "writer/writer_factory.hpp"
 #include "writer/supported_output_formats.hpp"
 #include "geometry/triangle.hpp"
 #include "geometry/meshdata.hpp"
@@ -17,6 +19,12 @@ int main(int argc, char* argv[])
     {
         Utility::displayHelp(argv);
         return 1;
+    }
+
+    if constexpr (!std::numeric_limits<float>::is_iec559 || sizeof(float) != 4U)
+    {
+        std::cerr << "ERROR: The implementation doesn't support the IEEE 754 - IEC 559 standard for float type." << std::endl;
+        return -1;
     }
 
     const std::string input_filename{argv[1]};
@@ -31,13 +39,13 @@ int main(int argc, char* argv[])
     if (!Reader::isSupportedInputFormat(input_extension_enum))
     {
         std::cerr << "ERROR: Input file format not supported." << std::endl;
-        return 1;
+        return -1;
     }
 
     if (!Writer::isSupportedOutputFormat(output_extension_enum))
     {
         std::cerr << "ERROR: Output file format not supported." << std::endl;
-        return 1;
+        return -1;
     }
     
     auto reader = ReaderFactory::createReader(input_extension_enum);
@@ -53,21 +61,21 @@ int main(int argc, char* argv[])
     catch(const std::exception& e)
     {
         std::cerr << "ERROR: " << e.what() << std::endl;
-        return 1;
+        return -1;
     }
 
     //ApplyTranformation(mesh, tranfrom);
-
-    /*
+    auto writer = WriterFactory::createWriter(output_extension_enum);
+    
     try
     {
-        MeshData mesh = Writer->write(output_filename, mesh);
+        writer->write(output_filename, mesh);
     }
     catch(const std::exception& e)
     {
         std::cerr << "ERROR: " << e.what() << std::endl;
+        return -1;
     }
-    */
 
 	return 0;
 }

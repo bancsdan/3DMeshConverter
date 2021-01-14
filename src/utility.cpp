@@ -12,16 +12,6 @@
 #include "reader/supported_input_formats.hpp"
 #include "writer/supported_output_formats.hpp"
 
-/*
- * Source: https://stackoverflow.com/questions/4239993/determining-endianness-at-compile-time
- */
-bool Utility::isLittleEndian()
-{
-        int16_t i = 1;
-        char* p = (char*)&i;
-        return p[0] == 1;
-}
-
 void Utility::displayHelp(char* argv[])
 {
         std::cout << "Usage: "<< argv[0] <<" <inputfile> <outputfile>" << std::endl << std::endl;
