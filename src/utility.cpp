@@ -5,6 +5,7 @@
 #include <iostream>
 #include <memory>
 #include <sstream>
+#include <iterator>
 #include <string>
 #include <vector>
 
