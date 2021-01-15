@@ -3,14 +3,13 @@
 
 #include <memory>
 
-#include "supported_input_formats.hpp"
 #include "ireader.hpp"
+#include "supported_input_formats.hpp"
 
-class ReaderFactory
-{
-public:
-    [[nodiscard]]
-    static std::unique_ptr<IReader> createReader(Reader::InputFormat format);
+class ReaderFactory {
+ public:
+  [[nodiscard]] static std::unique_ptr<IReader> createReader(
+      Reader::InputFormat format);
 };
 
 #endif

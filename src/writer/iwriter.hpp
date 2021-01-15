@@ -5,11 +5,11 @@
 
 struct MeshData;
 
-class IWriter
-{
-public:
-    virtual ~IWriter() = default;
-    virtual void write(const std::string& file_name, const MeshData& mesh) const = 0;
+class IWriter {
+ public:
+  virtual ~IWriter() = default;
+  virtual void write(const std::string& file_name,
+                     const MeshData& mesh) const = 0;
 };
 
 #endif

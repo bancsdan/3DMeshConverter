@@ -12,6 +12,7 @@
 #include "reader/supported_input_formats.hpp"
 #include "writer/supported_output_formats.hpp"
 
+
 void Utility::displayHelp(char* argv[])
 {
         std::cout << "Usage: "<< argv[0] <<" <inputfile> <outputfile>" << std::endl << std::endl;

@@ -5,15 +5,13 @@
 #include <exception>
 #include <string>
 
-class FileNotFoundException final : public std::exception
-{
-public:
+class FileNotFoundException final : public std::exception {
+ public:
   const char* what() const final override;
 };
 
-class IllFormedFileException final : public std::exception
-{
-public:
+class IllFormedFileException final : public std::exception {
+ public:
   const char* what() const final override;
 };
 
