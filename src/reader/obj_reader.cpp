@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <algorithm>
 #include <vector>
 
 #include "exception.hpp"
@@ -22,10 +23,11 @@ MeshData ObjReader::read(const std::string& file_name) {
   std::vector<Eigen::Vector4d> vertex_textures;
 
   for (std::string line; std::getline(in_file_stream, line);) {
-    const auto lineVect = Utility::splitString(line, ' ');
-
+    auto lineVect = Utility::splitString(line, ' ');
+    lineVect.erase(std::remove(lineVect.begin(), lineVect.end(), ""), lineVect.end());
+    
     if (!lineVect.empty()) {
-      if (Utility::startsWith(lineVect[0], c_vn)) {
+      if (Utility::startsWith(lineVect[0], c_vn)) {        
         readVector(lineVect, vertex_normals);
       } else if (Utility::startsWith(lineVect[0], c_vt)) {
         readVector(lineVect, vertex_textures);
