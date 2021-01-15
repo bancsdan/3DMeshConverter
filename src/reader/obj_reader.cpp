@@ -1,8 +1,8 @@
 #include <Eigen/Dense>
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <algorithm>
 #include <vector>
 
 #include "exception.hpp"
@@ -24,10 +24,11 @@ MeshData ObjReader::read(const std::string& file_name) {
 
   for (std::string line; std::getline(in_file_stream, line);) {
     auto lineVect = Utility::splitString(line, ' ');
-    lineVect.erase(std::remove(lineVect.begin(), lineVect.end(), ""), lineVect.end());
-    
+    lineVect.erase(std::remove(lineVect.begin(), lineVect.end(), ""),
+                   lineVect.end());
+
     if (!lineVect.empty()) {
-      if (Utility::startsWith(lineVect[0], c_vn)) {        
+      if (Utility::startsWith(lineVect[0], c_vn)) {
         readVector(lineVect, vertex_normals);
       } else if (Utility::startsWith(lineVect[0], c_vt)) {
         readVector(lineVect, vertex_textures);
@@ -55,7 +56,11 @@ void ObjReader::readVector(const std::vector<std::string>& line,
   Eigen::Vector4d vec{0.0, 0.0, 0.0, 0.0};
   unsigned int index = 0;
   for (auto it = line.begin() + 1; it != line.end(); ++it) {
-    vec[index++] = std::stod(*it);
+    try {
+      vec[index++] = std::stod(*it);
+    } catch (const std::exception&) {
+      throw IllFormedFileException();
+    }
   }
 
   vectors.push_back(vec);

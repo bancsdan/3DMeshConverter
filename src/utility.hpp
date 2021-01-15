@@ -30,7 +30,7 @@ inline bool isIntegerLittleEndian() {
 }
 
 /*
- * This is needed to be checked separately because according to the reffered
+ * This is needed to be checked separately because according to the referred
  * article on this page:
  * https://en.wikipedia.org/wiki/Endianness#Floating-point_and_endianness
  * it can differ from integer representation.
