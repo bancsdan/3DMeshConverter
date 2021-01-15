@@ -8,6 +8,7 @@
 struct MeshData;
 
 class StlWriter final : public IWriter {
+ private:
   static constexpr unsigned int c_header_size_in_bytes = 80U;
 
   void writeHeader(std::ofstream& out_file) const;

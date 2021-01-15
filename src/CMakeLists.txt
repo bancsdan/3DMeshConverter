@@ -15,7 +15,7 @@ set(HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/utility.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/exception.hpp)
 
-add_executable(${BINARY}_run ${SOURCES} ${HEADERS})
+add_executable(${BINARY}_cli ${SOURCES} ${HEADERS})
 add_library(${BINARY}_lib STATIC ${SOURCES} ${HEADERS})
 
 target_include_directories(${BINARY}_cli PUBLIC

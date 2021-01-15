@@ -44,10 +44,10 @@ std::vector<std::string> Utility::splitString(const std::string& str,
 
   while ((end = str.find(delim, start)) != std::string::npos) {
     const std::string word = str.substr(start, end - start);
-    result.push_back(word);
+    result.push_back(std::move(word));
     start = end + 1;
   }
-  result.push_back(str.substr(start));
+  result.push_back(std::move(str.substr(start)));
   return result;
 }
 

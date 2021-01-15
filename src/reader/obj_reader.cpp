@@ -22,6 +22,10 @@ MeshData ObjReader::read(const std::string& file_name) {
   std::vector<Eigen::Vector4d> vertex_normals;
   std::vector<Eigen::Vector4d> vertex_textures;
 
+  vertices.reserve(10000);
+  vertex_normals.reserve(10000);
+  vertex_textures.reserve(10000);
+
   for (std::string line; std::getline(in_file_stream, line);) {
     auto lineVect = Utility::splitString(line, ' ');
     lineVect.erase(std::remove(lineVect.begin(), lineVect.end(), ""),
