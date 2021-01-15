@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <iostream>
 #include <memory>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -39,15 +40,20 @@ std::string Utility::toLower(std::string str) {
 std::vector<std::string> Utility::splitString(const std::string& str,
                                               std::string::value_type delim) {
   std::vector<std::string> result;
-  std::string::size_type start = 0;
-  std::string::size_type end = 0;
+  std::istringstream ss(str);
+  std::string token;
 
-  while ((end = str.find(delim, start)) != std::string::npos) {
-    const std::string word = str.substr(start, end - start);
-    result.push_back(std::move(word));
-    start = end + 1;
+  while (std::getline(ss, token, delim)) {
+    result.push_back(token);
   }
-  result.push_back(std::move(str.substr(start)));
+
+  return result;
+}
+
+std::vector<std::string> Utility::splitString(const std::string& str) {
+  std::istringstream buffer(str);
+  std::vector<std::string> result{std::istream_iterator<std::string>(buffer),
+                                  std::istream_iterator<std::string>()};
   return result;
 }
 

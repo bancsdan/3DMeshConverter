@@ -23,22 +23,22 @@ MeshData ObjReader::read(const std::string& file_name) {
   std::vector<Eigen::Vector4d> vertex_textures;
 
   for (std::string line; std::getline(in_file_stream, line);) {
-    auto lineVect = Utility::splitString(line, ' ');
-    lineVect.erase(std::remove(lineVect.begin(), lineVect.end(), ""),
-                   lineVect.end());
+    auto words_vect = Utility::splitString(line);
+    words_vect.erase(std::remove(words_vect.begin(), words_vect.end(), ""),
+                     words_vect.end());
 
-    if (!lineVect.empty()) {
-      if (Utility::startsWith(lineVect[0], c_vn)) {
-        readVector(lineVect, vertex_normals);
-      } else if (Utility::startsWith(lineVect[0], c_vt)) {
-        readVector(lineVect, vertex_textures);
-      } else if (Utility::startsWith(lineVect[0], c_v)) {
-        readVector(lineVect, vertices);
-      } else if (Utility::startsWith(lineVect[0], c_f)) {
-        readFace(lineVect, vertices, vertex_textures, vertex_normals, result);
-      } else if (Utility::startsWith(lineVect[0], c_mtllib)) {
-        if (lineVect.size() > 1) {
-          result.m_material_file = lineVect[1];
+    if (!words_vect.empty()) {
+      if (Utility::startsWith(words_vect[0], c_vn)) {
+        readVector(words_vect, vertex_normals);
+      } else if (Utility::startsWith(words_vect[0], c_vt)) {
+        readVector(words_vect, vertex_textures);
+      } else if (Utility::startsWith(words_vect[0], c_v)) {
+        readVector(words_vect, vertices);
+      } else if (Utility::startsWith(words_vect[0], c_f)) {
+        readFace(words_vect, vertices, vertex_textures, vertex_normals, result);
+      } else if (Utility::startsWith(words_vect[0], c_mtllib)) {
+        if (words_vect.size() > 1) {
+          result.m_material_file = words_vect[1];
         }
       }
     }
