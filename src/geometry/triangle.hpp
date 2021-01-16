@@ -5,6 +5,8 @@
 
 #include "vertexdata.hpp"
 
+namespace Converter {
+
 class Triangle {
  public:
   VertexData m_a;
@@ -16,5 +18,7 @@ class Triangle {
 
   double GetArea() const noexcept;
 };
+
+}  // namespace Converter
 
 #endif

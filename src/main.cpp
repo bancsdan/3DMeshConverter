@@ -14,6 +14,8 @@
 #include "writer/writer_factory.hpp"
 
 int main(int argc, char* argv[]) {
+  using namespace Converter;
+
   if (argc != 3) {
     Utility::displayHelp(argv);
     return 1;

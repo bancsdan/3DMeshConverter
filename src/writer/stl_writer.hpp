@@ -5,6 +5,8 @@
 
 #include "iwriter.hpp"
 
+namespace Converter {
+
 struct MeshData;
 
 class StlWriter final : public IWriter {
@@ -19,5 +21,7 @@ class StlWriter final : public IWriter {
   void write(const std::string& file_name,
              const MeshData& mesh) const final override;
 };
+
+}  // namespace Converter
 
 #endif

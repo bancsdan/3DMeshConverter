@@ -8,6 +8,8 @@
 
 #include "ireader.hpp"
 
+namespace Converter {
+
 struct MeshData;
 
 class ObjReader final : public IReader {
@@ -29,5 +31,7 @@ class ObjReader final : public IReader {
  public:
   MeshData read(const std::string& in_file) final override;
 };
+
+}  // namespace Converter
 
 #endif

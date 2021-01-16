@@ -5,6 +5,8 @@
 #include "supported_output_formats.hpp"
 #include "writer_factory.hpp"
 
+namespace Converter {
+
 std::unique_ptr<IWriter> WriterFactory::createWriter(
     Writer::OutputFormat format) {
   switch (format) {
@@ -16,3 +18,5 @@ std::unique_ptr<IWriter> WriterFactory::createWriter(
       break;
   }
 }
+
+}  // namespace Converter

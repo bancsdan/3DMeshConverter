@@ -2,6 +2,8 @@
 
 #include "supported_output_formats.hpp"
 
+namespace Converter {
+
 Writer::OutputFormat Writer::convertOutputFormatToEnum(
     const std::string& format) {
   auto entry = std::find_if(supported_output_formats_map.begin(),
@@ -18,3 +20,5 @@ Writer::OutputFormat Writer::convertOutputFormatToEnum(
 bool Writer::isSupportedOutputFormat(OutputFormat format) {
   return format != OutputFormat::INVALID;
 }
+
+}  // namespace Converter

@@ -3,6 +3,8 @@
 
 #include <string>
 
+namespace Converter {
+
 struct MeshData;
 
 class IReader {
@@ -10,5 +12,7 @@ class IReader {
   virtual ~IReader() = default;
   virtual MeshData read(const std::string& file_name) = 0;
 };
+
+}  // namespace Converter
 
 #endif

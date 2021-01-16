@@ -5,7 +5,9 @@
 #include <string>
 #include <utility>
 
+namespace Converter {
 namespace Reader {
+
 enum class InputFormat { OBJ, INVALID };
 
 static constexpr std::array<std::pair<const char*, InputFormat>, 1>
@@ -13,6 +15,8 @@ static constexpr std::array<std::pair<const char*, InputFormat>, 1>
 
 InputFormat convertInputFormatToEnum(const std::string& format);
 bool isSupportedInputFormat(InputFormat format);
+
 }  // namespace Reader
+}  // namespace Converter
 
 #endif

@@ -10,6 +10,8 @@
 #include "stl_writer.hpp"
 #include "utility.hpp"
 
+namespace Converter {
+
 void StlWriter::write(const std::string& file_name,
                       const MeshData& mesh) const {
   std::ofstream out_file;
@@ -84,3 +86,4 @@ void StlWriter::writeTriangles(std::ofstream& out_file,
     out_file.write((const char*)&attribute_byte_count, sizeof(std::uint16_t));
   }
 }
+}  // namespace Converter

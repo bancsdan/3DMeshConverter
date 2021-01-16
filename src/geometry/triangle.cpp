@@ -5,6 +5,8 @@
 #include "triangle.hpp"
 #include "vertexdata.hpp"
 
+namespace Converter {
+
 Triangle::Triangle(const VertexData& a, const VertexData& b,
                    const VertexData& c)
     : m_a(a), m_b(b), m_c(c) {}
@@ -16,3 +18,5 @@ double Triangle::GetArea() const noexcept {
   const double s = (a_side + b_side + c_side) / 2.0;
   return sqrt(s * (s - a_side) * (s - b_side) * (s - c_side));
 }
+
+}  // namespace Converter

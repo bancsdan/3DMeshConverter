@@ -7,6 +7,7 @@
 #include <type_traits>
 #include <vector>
 
+namespace Converter {
 namespace Utility {
 
 void displayHelp(char* argv[]);
@@ -58,6 +59,8 @@ T swapByteOrder(const T& data) {
 
   return return_value;
 }
+
 }  // namespace Utility
+}  // namespace Converter
 
 #endif

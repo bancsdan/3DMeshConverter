@@ -3,6 +3,8 @@
 #include "geometry/triangle.hpp"
 #include "gtest/gtest.h"
 
+using namespace Converter;
+
 TEST(TriangleTests, TestGetArea) {
   Triangle t1(Eigen::Vector4d{0.0, 0.0, 0.0, 0.0},
               Eigen::Vector4d{1.0, 0.0, 0.0, 0.0},

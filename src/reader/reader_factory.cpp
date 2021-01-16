@@ -5,6 +5,8 @@
 #include "reader_factory.hpp"
 #include "supported_input_formats.hpp"
 
+namespace Converter {
+
 std::unique_ptr<IReader> ReaderFactory::createReader(
     Reader::InputFormat format) {
   switch (format) {
@@ -16,3 +18,5 @@ std::unique_ptr<IReader> ReaderFactory::createReader(
       break;
   }
 }
+
+}  // namespace Converter

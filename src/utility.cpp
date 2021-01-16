@@ -3,15 +3,17 @@
 #include <cctype>
 #include <cstdint>
 #include <iostream>
+#include <iterator>
 #include <memory>
 #include <sstream>
-#include <iterator>
 #include <string>
 #include <vector>
 
 #include "reader/supported_input_formats.hpp"
 #include "utility.hpp"
 #include "writer/supported_output_formats.hpp"
+
+namespace Converter {
 
 void Utility::displayHelp(char* argv[]) {
   std::cout << "Usage: " << argv[0] << " <inputfile> <outputfile>" << std::endl
@@ -61,3 +63,5 @@ std::vector<std::string> Utility::splitString(const std::string& str) {
 bool Utility::startsWith(const std::string& str, const char* start) {
   return str.rfind(start, 0) == 0;
 }
+
+}  // namespace Converter

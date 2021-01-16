@@ -10,6 +10,8 @@
 #include "obj_reader.hpp"
 #include "utility.hpp"
 
+namespace Converter {
+
 MeshData ObjReader::read(const std::string& file_name) {
   std::ifstream in_file_stream;
   in_file_stream.open(file_name);
@@ -126,3 +128,5 @@ void ObjReader::readFace(const std::vector<std::string>& line,
     mesh.m_triangles.push_back(std::move(triangle));
   }
 }
+
+}  // namespace Converter
