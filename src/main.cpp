@@ -66,6 +66,11 @@ int main(int argc, char* argv[]) {
   // ApplyTranformation(mesh, tranfrom);
   auto writer = WriterFactory::createWriter(output_extension_enum);
 
+  //print area
+  std::cout << "Area: " << Utility::calculateMeshSurfaceArea(mesh) << " units." << std::endl;
+
+  //print volume
+
   try {
     writer->write(output_filename, mesh);
   } catch (const std::exception& e) {

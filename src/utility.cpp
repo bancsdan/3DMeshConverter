@@ -9,8 +9,9 @@
 #include <string>
 #include <vector>
 
-#include "reader/supported_input_formats.hpp"
 #include "utility.hpp"
+#include "geometry/meshdata.hpp"
+#include "reader/supported_input_formats.hpp"
 #include "writer/supported_output_formats.hpp"
 
 namespace Converter {
@@ -62,6 +63,16 @@ std::vector<std::string> Utility::splitString(const std::string& str) {
 
 bool Utility::startsWith(const std::string& str, const char* start) {
   return str.rfind(start, 0) == 0;
+}
+
+double Utility::calculateMeshSurfaceArea(const MeshData& mesh)
+{
+  double surface_area = 0.0;
+  for (const auto& triangle : mesh.m_triangles)
+  {
+    surface_area += triangle.getArea();
+  }
+  return surface_area;
 }
 
 }  // namespace Converter

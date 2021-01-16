@@ -16,7 +16,7 @@ class Triangle {
   Triangle() = default;
   Triangle(const VertexData& a, const VertexData& b, const VertexData& c);
 
-  double GetArea() const noexcept;
+  double getArea() const;
 };
 
 }  // namespace Converter

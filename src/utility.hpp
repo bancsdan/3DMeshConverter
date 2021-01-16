@@ -8,6 +8,9 @@
 #include <vector>
 
 namespace Converter {
+
+struct MeshData;
+
 namespace Utility {
 
 void displayHelp(char* argv[]);
@@ -16,6 +19,7 @@ std::vector<std::string> splitString(const std::string& str,
                                      std::string::value_type delim);
 std::vector<std::string> splitString(const std::string& str);
 bool startsWith(const std::string& str, const char* start);
+double calculateMeshSurfaceArea(const MeshData& mesh);
 
 inline bool isEqual(double a, double b, double epsilon = 0.00000001) {
   return fabs(a - b) < epsilon;
