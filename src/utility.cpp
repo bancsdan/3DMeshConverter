@@ -1,6 +1,8 @@
 #include <Eigen/Dense>
+#include <Eigen/Geometry>
 #include <algorithm>
 #include <cctype>
+#include <cmath>
 #include <cstdint>
 #include <iostream>
 #include <iterator>
@@ -101,9 +103,7 @@ bool isPointInsideMesh(const MeshData &mesh, const Eigen::Vector4d &point) {
 
       const auto &predicate = [&intersection](const auto &point) {
         const auto &i_point = intersection.value();
-        return isEqual(point.x(), i_point.x()) &&
-               isEqual(point.y(), i_point.y()) &&
-               isEqual(point.z(), i_point.z());
+        return point.isApprox(i_point);
       };
 
       if (std::find_if(intersections.begin(), intersections.end(), predicate) ==
@@ -158,6 +158,67 @@ bool isInsideTriangle(const Eigen::Vector4d &point, const Triangle &triangle) {
       (a - c).cross3(point - c).dot(triangle_normal) >= 0.0;
 
   return is_inside_ab && is_inside_bc && is_inside_ca;
+}
+
+void transformMesh(MeshData &mesh, const Eigen::Matrix4d &translation_matrix,
+                   const Eigen::Matrix4d &rotation_matrix,
+                   const Eigen::Matrix4d &scale_matrix) {
+  const Eigen::Matrix4d &transformation_matrix =
+      translation_matrix * rotation_matrix * scale_matrix;
+  const Eigen::Matrix4d &normal_transformation_matrix =
+      (rotation_matrix * scale_matrix).inverse().transpose();
+
+  for (auto &triangle : mesh.m_triangles) {
+    transformTriangle(triangle, transformation_matrix,
+                      normal_transformation_matrix);
+  }
+}
+
+void transformVector(Eigen::Vector4d &point,
+                     const Eigen::Matrix4d &transform_matrix) {
+  point = transform_matrix * point;
+}
+
+void transformTriangle(Triangle &triangle,
+                       const Eigen::Matrix4d &transform_matrix,
+                       const Eigen::Matrix4d &transform_matrix_for_normal) {
+  transformVector(triangle.m_a.m_pos, transform_matrix);
+  transformVector(triangle.m_b.m_pos, transform_matrix);
+  transformVector(triangle.m_c.m_pos, transform_matrix);
+
+  transformVector(triangle.m_a.m_normal, transform_matrix_for_normal);
+  transformVector(triangle.m_b.m_normal, transform_matrix_for_normal);
+  transformVector(triangle.m_c.m_normal, transform_matrix_for_normal);
+}
+
+Eigen::Matrix4d getTranslationMatrix(const Eigen::Vector3d &translation) {
+  Eigen::Matrix4d translation_matrix;
+  translation_matrix.setIdentity();
+  translation_matrix(0, 3) = translation.x();
+  translation_matrix(1, 3) = translation.y();
+  translation_matrix(2, 3) = translation.z();
+
+  return translation_matrix;
+}
+
+Eigen::Matrix4d getRotationMatrix(const Eigen::Vector3d &rotation_axis,
+                                  double angle) {
+  Eigen::Matrix4d rotation_matrix;
+  rotation_matrix.setIdentity();
+  rotation_matrix.block<3, 3>(0, 0) =
+      Eigen::AngleAxisd(angle, rotation_axis.normalized()).matrix();
+
+  return rotation_matrix;
+}
+
+Eigen::Matrix4d getScaleMatrix(const Eigen::Vector3d &scale) {
+  Eigen::Matrix4d scale_matrix;
+  scale_matrix.setIdentity();
+  scale_matrix(0, 0) *= scale.x();
+  scale_matrix(1, 1) *= scale.y();
+  scale_matrix(2, 2) *= scale.z();
+
+  return scale_matrix;
 }
 
 } // namespace Utility

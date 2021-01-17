@@ -18,6 +18,7 @@ public:
 
   double getArea() const;
   Eigen::Vector4d getNormal() const;
+  bool operator==(const Triangle &other) const;
 };
 
 } // namespace Converter

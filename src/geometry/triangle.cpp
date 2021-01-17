@@ -26,4 +26,13 @@ Eigen::Vector4d Triangle::getNormal() const {
   return cross;
 }
 
+bool Triangle::operator==(const Triangle &other) const {
+  return m_a.m_pos.isApprox(other.m_a.m_pos) &&
+         m_b.m_pos.isApprox(other.m_b.m_pos) &&
+         m_c.m_pos.isApprox(other.m_c.m_pos) &&
+         m_a.m_normal.isApprox(other.m_a.m_normal) &&
+         m_b.m_normal.isApprox(other.m_b.m_normal) &&
+         m_c.m_normal.isApprox(other.m_c.m_normal);
+}
+
 } // namespace Converter
