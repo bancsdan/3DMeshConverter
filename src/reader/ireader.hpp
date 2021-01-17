@@ -8,11 +8,11 @@ namespace Converter {
 struct MeshData;
 
 class IReader {
- public:
+public:
   virtual ~IReader() = default;
-  virtual MeshData read(const std::string& file_name) = 0;
+  virtual MeshData read(const std::string &file_name) = 0;
 };
 
-}  // namespace Converter
+} // namespace Converter
 
 #endif

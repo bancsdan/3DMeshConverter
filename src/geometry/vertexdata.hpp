@@ -12,9 +12,9 @@ struct VertexData {
   Eigen::Vector4d m_texture{0.0, 0.0, 0.0, 0.0};
 
   VertexData() = default;
-  VertexData(const Eigen::Vector4d& pos) : m_pos(pos) {}
+  VertexData(const Eigen::Vector4d &pos) : m_pos(pos) {}
 };
 
-}  // namespace Converter
+} // namespace Converter
 
 #endif

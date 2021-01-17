@@ -1,8 +1,10 @@
 #ifndef UTILITY_HPP
 #define UTILITY_HPP
 
+#include <Eigen/Dense>
 #include <array>
 #include <fstream>
+#include <optional>
 #include <string>
 #include <type_traits>
 #include <vector>
@@ -13,13 +15,20 @@ struct MeshData;
 
 namespace Utility {
 
-void displayHelp(char* argv[]);
+void displayHelp(char *argv[]);
 std::string toLower(std::string str);
-std::vector<std::string> splitString(const std::string& str,
+std::vector<std::string> splitString(const std::string &str,
                                      std::string::value_type delim);
-std::vector<std::string> splitString(const std::string& str);
-bool startsWith(const std::string& str, const char* start);
-double calculateMeshSurfaceArea(const MeshData& mesh);
+std::vector<std::string> splitString(const std::string &str);
+bool startsWith(const std::string &str, const char *start);
+double calculateMeshSurfaceArea(const MeshData &mesh);
+double calculateMeshVolume(const MeshData &mesh);
+bool isPointInsideMesh(const MeshData &mesh, const Eigen::Vector4d &point);
+bool isInsideTriangle(const Eigen::Vector4d &point, const Triangle &triangle);
+std::optional<Eigen::Vector4d>
+rayTriangleIntersection(const Eigen::Vector4d &ray_starting_point,
+                        const Eigen::Vector4d &ray_direction,
+                        const Triangle &triangle);
 
 inline bool isEqual(double a, double b, double epsilon = 0.00000001) {
   return fabs(a - b) < epsilon;
@@ -31,7 +40,7 @@ inline bool isEqual(double a, double b, double epsilon = 0.00000001) {
  */
 inline bool isIntegerLittleEndian() {
   static std::int16_t i = 1;
-  static const char* p = (const char*)&i;
+  static const char *p = (const char *)&i;
   return p[0] == 1;
 }
 
@@ -43,18 +52,17 @@ inline bool isIntegerLittleEndian() {
  */
 inline bool isFloatLittleEndian() {
   static const float i = -1.0f;
-  static const char* p = (const char*)&i;
+  static const char *p = (const char *)&i;
   return p[0] == 0;
 }
 
 /*
  * Source: https://stackoverflow.com/a/24761663
  */
-template <typename T>
-T swapByteOrder(const T& data) {
+template <typename T> T swapByteOrder(const T &data) {
   T return_value;
-  char* p_data = (char*)&data;
-  char* p_return_value = (char*)&return_value;
+  char *p_data = (char *)&data;
+  char *p_return_value = (char *)&return_value;
   std::size_t size = sizeof(T);
 
   for (std::size_t i = 0U; i < size; ++i) {
@@ -64,7 +72,7 @@ T swapByteOrder(const T& data) {
   return return_value;
 }
 
-}  // namespace Utility
-}  // namespace Converter
+} // namespace Utility
+} // namespace Converter
 
 #endif

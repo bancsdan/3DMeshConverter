@@ -9,10 +9,10 @@
 namespace Converter {
 
 class WriterFactory {
- public:
-  [[nodiscard]] static std::unique_ptr<IWriter> createWriter(
-      Writer::OutputFormat format);
+public:
+  [[nodiscard]] static std::unique_ptr<IWriter>
+  createWriter(Writer::OutputFormat format);
 };
 
-}  // namespace Converter
+} // namespace Converter
 #endif

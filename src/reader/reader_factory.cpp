@@ -7,16 +7,16 @@
 
 namespace Converter {
 
-std::unique_ptr<IReader> ReaderFactory::createReader(
-    Reader::InputFormat format) {
+std::unique_ptr<IReader>
+ReaderFactory::createReader(Reader::InputFormat format) {
   switch (format) {
-    case Reader::InputFormat::OBJ:
-      return std::make_unique<ObjReader>();
-      break;
-    default:
-      return nullptr;
-      break;
+  case Reader::InputFormat::OBJ:
+    return std::make_unique<ObjReader>();
+    break;
+  default:
+    return nullptr;
+    break;
   }
 }
 
-}  // namespace Converter
+} // namespace Converter

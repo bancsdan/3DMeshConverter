@@ -12,7 +12,7 @@
 
 namespace Converter {
 
-MeshData ObjReader::read(const std::string& file_name) {
+MeshData ObjReader::read(const std::string &file_name) {
   std::ifstream in_file_stream;
   in_file_stream.open(file_name);
   if (!in_file_stream) {
@@ -49,8 +49,8 @@ MeshData ObjReader::read(const std::string& file_name) {
   return result;
 }
 
-void ObjReader::readVector(const std::vector<std::string>& line,
-                           std::vector<Eigen::Vector4d>& vectors) const {
+void ObjReader::readVector(const std::vector<std::string> &line,
+                           std::vector<Eigen::Vector4d> &vectors) const {
   if (line.size() != 4 && line.size() != 5) {
     throw IllFormedFileException();
   }
@@ -60,7 +60,7 @@ void ObjReader::readVector(const std::vector<std::string>& line,
   for (auto it = line.begin() + 1; it != line.end(); ++it) {
     try {
       vec[index++] = std::stod(*it);
-    } catch (const std::exception&) {
+    } catch (const std::exception &) {
       throw IllFormedFileException();
     }
   }
@@ -68,18 +68,18 @@ void ObjReader::readVector(const std::vector<std::string>& line,
   vectors.push_back(vec);
 }
 
-void ObjReader::readFace(const std::vector<std::string>& line,
-                         const std::vector<Eigen::Vector4d>& vertices,
-                         const std::vector<Eigen::Vector4d>& vertex_textures,
-                         const std::vector<Eigen::Vector4d>& vertex_normals,
-                         MeshData& mesh) const {
+void ObjReader::readFace(const std::vector<std::string> &line,
+                         const std::vector<Eigen::Vector4d> &vertices,
+                         const std::vector<Eigen::Vector4d> &vertex_textures,
+                         const std::vector<Eigen::Vector4d> &vertex_normals,
+                         MeshData &mesh) const {
   if (line.size() < 4) {
     throw IllFormedFileException();
   }
 
-  std::vector<const Eigen::Vector4d*> face_vertices;
-  std::vector<const Eigen::Vector4d*> face_vertex_textures;
-  std::vector<const Eigen::Vector4d*> face_vertex_normals;
+  std::vector<const Eigen::Vector4d *> face_vertices;
+  std::vector<const Eigen::Vector4d *> face_vertex_textures;
+  std::vector<const Eigen::Vector4d *> face_vertex_normals;
   for (auto it = line.begin() + 1; it != line.end(); ++it) {
     const auto face_vertex_str = Utility::splitString(*it, '/');
     if (face_vertex_str.size() == 3) {
@@ -129,4 +129,4 @@ void ObjReader::readFace(const std::vector<std::string>& line,
   }
 }
 
-}  // namespace Converter
+} // namespace Converter

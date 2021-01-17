@@ -1,6 +1,7 @@
 #include <array>
 #include <filesystem>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <limits>
 #include <string>
@@ -13,7 +14,7 @@
 #include "writer/supported_output_formats.hpp"
 #include "writer/writer_factory.hpp"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   using namespace Converter;
 
   if (argc != 3) {
@@ -58,7 +59,7 @@ int main(int argc, char* argv[]) {
     if (reader) {
       mesh = reader->read(input_filename);
     }
-  } catch (const std::exception& e) {
+  } catch (const std::exception &e) {
     std::cerr << "ERROR: " << e.what() << std::endl;
     return -1;
   }
@@ -66,14 +67,19 @@ int main(int argc, char* argv[]) {
   // ApplyTranformation(mesh, tranfrom);
   auto writer = WriterFactory::createWriter(output_extension_enum);
 
-  //print area
-  std::cout << "Area: " << Utility::calculateMeshSurfaceArea(mesh) << " units." << std::endl;
+  // print area
+  std::cout << std::setprecision(std::numeric_limits<double>::digits10)
+            << "Area: " << Utility::calculateMeshSurfaceArea(mesh) << std::endl;
 
-  //print volume
+  // print volume
+  std::cout << std::setprecision(std::numeric_limits<double>::digits10)
+            << "Volume: " << Utility::calculateMeshVolume(mesh) << std::endl;
 
   try {
-    writer->write(output_filename, mesh);
-  } catch (const std::exception& e) {
+    if (writer) {
+      writer->write(output_filename, mesh);
+    }
+  } catch (const std::exception &e) {
     std::cerr << "ERROR: " << e.what() << std::endl;
     return -1;
   }

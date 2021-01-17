@@ -13,6 +13,6 @@ struct MeshData {
   std::vector<Triangle> m_triangles;
 };
 
-}  // namespace Converter
+} // namespace Converter
 
 #endif

@@ -7,16 +7,16 @@
 
 namespace Converter {
 
-std::unique_ptr<IWriter> WriterFactory::createWriter(
-    Writer::OutputFormat format) {
+std::unique_ptr<IWriter>
+WriterFactory::createWriter(Writer::OutputFormat format) {
   switch (format) {
-    case Writer::OutputFormat::STL:
-      return std::make_unique<StlWriter>();
-      break;
-    default:
-      return nullptr;
-      break;
+  case Writer::OutputFormat::STL:
+    return std::make_unique<StlWriter>();
+    break;
+  default:
+    return nullptr;
+    break;
   }
 }
 
-}  // namespace Converter
+} // namespace Converter

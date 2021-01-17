@@ -4,9 +4,9 @@
 
 namespace Converter {
 
-Reader::InputFormat Reader::convertInputFormatToEnum(
-    const std::string& format) {
-  const auto predicate = [&format](const auto& format_pair) {
+Reader::InputFormat
+Reader::convertInputFormatToEnum(const std::string &format) {
+  const auto predicate = [&format](const auto &format_pair) {
     return format_pair.first == format;
   };
 
@@ -23,4 +23,4 @@ bool Reader::isSupportedInputFormat(InputFormat format) {
   return format != InputFormat::INVALID;
 }
 
-}  // namespace Converter
+} // namespace Converter

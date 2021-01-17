@@ -8,11 +8,11 @@ namespace Converter {
 struct MeshData;
 
 class IWriter {
- public:
+public:
   virtual ~IWriter() = default;
-  virtual void write(const std::string& file_name,
-                     const MeshData& mesh) const = 0;
+  virtual void write(const std::string &file_name,
+                     const MeshData &mesh) const = 0;
 };
-}  // namespace Converter
+} // namespace Converter
 
 #endif

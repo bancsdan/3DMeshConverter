@@ -9,11 +9,11 @@
 namespace Converter {
 
 class ReaderFactory {
- public:
-  [[nodiscard]] static std::unique_ptr<IReader> createReader(
-      Reader::InputFormat format);
+public:
+  [[nodiscard]] static std::unique_ptr<IReader>
+  createReader(Reader::InputFormat format);
 };
 
-}  // namespace Converter
+} // namespace Converter
 
 #endif
