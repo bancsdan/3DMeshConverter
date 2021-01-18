@@ -125,7 +125,7 @@ rayTriangleIntersection(const Eigen::Vector4d &ray_starting_point,
   const auto &triangle_normal = triangle.getNormal();
 
   const double d = triangle_normal.dot(a);
-  const double det = triangle_normal.dot(ray_direction);
+  const double det = triangle_normal.dot(ray_direction.normalized());
 
   if (isEqual(det, 0.0)) {
     return {};
@@ -137,7 +137,7 @@ rayTriangleIntersection(const Eigen::Vector4d &ray_starting_point,
     return {};
   }
 
-  const auto &intersection_point = ray_starting_point + t * ray_direction;
+  const auto &intersection_point = ray_starting_point + t * ray_direction.normalized();
 
   if (isInsideTriangle(intersection_point, triangle))
     return {intersection_point};
@@ -149,6 +149,10 @@ bool isInsideTriangle(const Eigen::Vector4d &point, const Triangle &triangle) {
   const auto &b = triangle.m_b.m_pos;
   const auto &c = triangle.m_c.m_pos;
   const auto &triangle_normal = triangle.getNormal();
+
+  if ( !isEqual( (a - point).dot(triangle_normal), 0.0 ) ) {
+    return false;
+  }
 
   const bool is_inside_ab =
       (b - a).cross3(point - a).dot(triangle_normal) >= 0.0;

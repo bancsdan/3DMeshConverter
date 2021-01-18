@@ -7,36 +7,48 @@
 
 using namespace Converter;
 
+namespace {
+
 static constexpr double PI = 3.141592653589793238;
 static constexpr double EPSILON = 0.0000001;
 
-TEST(UtilityTests, TestDoesRayIntersectTriangle) {
-  //   Triangle t1(Eigen::Vector4d{1.0, 1.0, 0.0, 0.0},
-  //               Eigen::Vector4d{0.0, 1.0, 1.0, 0.0},
-  //               Eigen::Vector4d{0.0, 1.0, -1.0, 0.0});
+}
 
-  //   Eigen::Vector4d p1{0.5, 0.0, 0.0, 0.0};
-  //   Eigen::Vector4d ray_dir{0.0, 1.0, 0.0, 0.0};
-  //   EXPECT_TRUE(Utility::rayTriangleIntersection(p1, ray_dir, t1));
+TEST(UtilityTests, TestRayTriangleIntersection) {
+  Eigen::Vector4d a{1.0, 1.0, 0.0, 1.0};
+  Eigen::Vector4d b{-1.0, 1.0, 0.0, 1.0};
+  Eigen::Vector4d c{0.0, 1.0, 1.0, 1.0};
+  Triangle triangle{a, b, c};
 
-  //   ray_dir = {0.0, -1.0, 0.0, 0.0};
-  //   EXPECT_FALSE(Utility::doesRayIntersectTriangle(p1, ray_dir, t1));
+  Eigen::Vector4d ray_start_point{0.0, 0.0, 0.5, 1.0};
+  Eigen::Vector4d ray_dir{0.0, -1.0, 0.0, 0.0};
+  auto hit = Utility::rayTriangleIntersection(ray_start_point, ray_dir, triangle);
+  EXPECT_FALSE(hit);
 
-  //   ray_dir = {1.0, 0.0, 0.0, 0.0};
-  //   EXPECT_FALSE(Utility::doesRayIntersectTriangle(p1, ray_dir, t1));
+  ray_start_point = {0.0, 0.0, 0.5, 1.0};
+  ray_dir= {0.0, 1.0, 0.0, 0.0};
+  hit = Utility::rayTriangleIntersection(ray_start_point, ray_dir, triangle);
+  EXPECT_TRUE(hit.value().isApprox(Eigen::Vector4d{0.0, 1.0, 0.5, 1.0}));
 
-  //   ray_dir = {-1.0, 0.5, 0.0, 0.0};
-  //   EXPECT_FALSE(Utility::doesRayIntersectTriangle(p1, ray_dir, t1));
+  ray_start_point = {1.0, 0.0, 0.0, 1.0};
+  ray_dir= {0.0, 1.0, 0.0, 0.0};
+  hit = Utility::rayTriangleIntersection(ray_start_point, ray_dir, triangle);
+  EXPECT_TRUE(hit.value().isApprox(a));
 
-  //   p1 = {1.0, 0.0, 0.0, 0.0};
-  //   ray_dir = {0.0, 1.0, 0.0, 0.0};
-  //   EXPECT_TRUE(Utility::doesRayIntersectTriangle(p1, ray_dir, t1));
+  ray_start_point = {1.001, 0.0, 0.0, 1.0};
+  ray_dir= {0.0, 1.0, 0.0, 0.0};
+  hit = Utility::rayTriangleIntersection(ray_start_point, ray_dir, triangle);
+  EXPECT_FALSE(hit);
 
-  //   p1 = {1.0001, 0.0, 0.0, 0.0};
-  //   EXPECT_FALSE(Utility::doesRayIntersectTriangle(p1, ray_dir, t1));
+  ray_start_point = {0.0, 1.0, 0.5, 1.0};
+  ray_dir= {0.0, 1.0, 0.0, 0.0};
+  hit = Utility::rayTriangleIntersection(ray_start_point, ray_dir, triangle);
+  EXPECT_TRUE(hit.value().isApprox(ray_start_point));
 
-  //   p1 = {0.9999, 0.0, 0.0, 0.0};
-  //   EXPECT_TRUE(Utility::doesRayIntersectTriangle(p1, ray_dir, t1));
+  ray_start_point = {0.2, 0.1, 0.4, 1.0};
+  ray_dir= {-0.3, 0.8, -0.2, 0.0};
+  hit = Utility::rayTriangleIntersection(ray_start_point, ray_dir, triangle);
+  EXPECT_TRUE(hit.value().isApprox(Eigen::Vector4d{-0.1375, 1.0, 0.175, 1.0}));
 }
 
 TEST(UtilityTests, TestIsPointInsideMesh) {
@@ -88,7 +100,7 @@ TEST(UtilityTests, TestIsPointInsideMesh) {
   EXPECT_TRUE(Utility::isPointInsideMesh(mesh, testp));
 }
 
-TEST(UtilityTest, TestGetTranslationMatrix) {
+TEST(UtilityTests, TestGetTranslationMatrix) {
   Eigen::Matrix4d transform;
   transform.setIdentity();
   transform(0, 3) = 1.0;
@@ -102,7 +114,7 @@ TEST(UtilityTest, TestGetTranslationMatrix) {
       transform.isApprox(Utility::getTranslationMatrix({0.0, 0.0, 0.0})));
 }
 
-TEST(UtilityTest, TestGetRotationMatrix) {
+TEST(UtilityTests, TestGetRotationMatrix) {
   Eigen::Matrix4d transform;
   transform.setIdentity();
   transform(0, 0) = 0.8861471;
@@ -121,7 +133,7 @@ TEST(UtilityTest, TestGetRotationMatrix) {
   EXPECT_TRUE(transform.isApprox(rotation, EPSILON));
 }
 
-TEST(UtilityTest, TestGetScaleMatrix) {
+TEST(UtilityTests, TestGetScaleMatrix) {
   Eigen::Matrix4d transform;
   transform.setIdentity();
 
@@ -135,27 +147,38 @@ TEST(UtilityTest, TestGetScaleMatrix) {
   EXPECT_TRUE(transform.isApprox(Utility::getScaleMatrix(scale)));
 }
 
-TEST(UtilityTest, TestTransformVector) {
-  Eigen::Vector4d point{-1.0, 0.0, 0.0, 1.0};
+TEST(UtilityTests, TestTransformVector) {
+  Eigen::Vector4d point;
 
   // pure rotations
+  point = {1.0, 0.0, 0.0, 1.0};
   Eigen::Matrix4d rotation_matrix =
+      Utility::getRotationMatrix({0.0, 1.0, 0.0}, PI / 2.0);
+  Utility::transformVector(point, rotation_matrix);
+  EXPECT_TRUE(point.isApprox(Eigen::Vector4d{0.0, 0.0, -1.0, 1.0}));
+  
+  point = {-1.0, 0.0, 0.0, 1.0};
+  rotation_matrix =
       Utility::getRotationMatrix({0.0, 1.0, 0.0}, PI);
   Utility::transformVector(point, rotation_matrix);
   EXPECT_TRUE(point.isApprox(Eigen::Vector4d{1.0, 0.0, 0.0, 1.0}));
 
+  point = {1.0, 0.0, 0.0, 1.0};
   rotation_matrix = Utility::getRotationMatrix({0.0, 0.0, 1.0}, PI);
   Utility::transformVector(point, rotation_matrix);
   EXPECT_TRUE(point.isApprox(Eigen::Vector4d{-1.0, 0.0, 0.0, 1.0}));
-
+  
+  point = {-1.0, 0.0, 0.0, 1.0};
   rotation_matrix = Utility::getRotationMatrix({1.0, 0.0, 0.0}, PI);
   Utility::transformVector(point, rotation_matrix);
   EXPECT_TRUE(point.isApprox(Eigen::Vector4d{-1.0, 0.0, 0.0, 1.0}));
-
+  
+  point = {-1.0, 0.0, 0.0, 1.0};
   rotation_matrix = Utility::getRotationMatrix({8.213, -5.231, 1.894}, 0.0);
   Utility::transformVector(point, rotation_matrix);
   EXPECT_TRUE(point.isApprox(Eigen::Vector4d{-1.0, 0.0, 0.0, 1.0}));
-
+  
+  point = {-1.0, 0.0, 0.0, 1.0};
   rotation_matrix =
       Utility::getRotationMatrix({8.213, -5.231, 1.894}, PI / 5.0);
   Utility::transformVector(point, rotation_matrix);
@@ -165,14 +188,16 @@ TEST(UtilityTest, TestTransformVector) {
   // pure translations
   point = {-1.0, 0.0, 0.0, 1.0};
   Eigen::Matrix4d translation_matrix =
-      Utility::getTranslationMatrix({0.0, 1.0, 0.0});
+      Utility::getTranslationMatrix({0.0, 0.0, 0.0});
   Utility::transformVector(point, translation_matrix);
-  EXPECT_TRUE(point.isApprox(Eigen::Vector4d{-1.0, 1.0, 0.0, 1.0}));
-
+  EXPECT_TRUE(point.isApprox(Eigen::Vector4d{-1.0, 0.0, 0.0, 1.0}));
+  
+  point = {-1.0, 1.0, 0.0, 1.0};
   translation_matrix = Utility::getTranslationMatrix({1.0, -1.0, 0.0});
   Utility::transformVector(point, translation_matrix);
   EXPECT_TRUE(point.isApprox(Eigen::Vector4d{0.0, 0.0, 0.0, 1.0}));
-
+  
+  point = {0.0, 0.0, 0.0, 1.0};
   translation_matrix = Utility::getTranslationMatrix({3.9123, -5.123, 11.0092});
   Utility::transformVector(point, translation_matrix);
   EXPECT_TRUE(point.isApprox(Eigen::Vector4d{3.9123, -5.123, 11.0092, 1.0}));
@@ -182,13 +207,32 @@ TEST(UtilityTest, TestTransformVector) {
   Eigen::Matrix4d scale_matrix = Utility::getScaleMatrix({1.0, 1.0, 1.0});
   Utility::transformVector(point, scale_matrix);
   EXPECT_TRUE(point.isApprox(Eigen::Vector4d{-1.0, 0.0, 0.0, 1.0}));
-
+  
+  point = {-1.0, 0.0, 0.0, 1.0};
   scale_matrix = Utility::getScaleMatrix({0.5, 0.5, 0.5});
   Utility::transformVector(point, scale_matrix);
   EXPECT_TRUE(point.isApprox(Eigen::Vector4d{-0.5, 0.0, 0.0, 1.0}));
+
+  point = {1.0, 1.0, 1.0, 1.0};
+  scale_matrix = Utility::getScaleMatrix({5.92, -12.0, 3.08});
+  Utility::transformVector(point, scale_matrix);
+  EXPECT_TRUE(point.isApprox(Eigen::Vector4d{5.92, -12.0, 3.08, 1.0}));
+
+  // combined
+  point = {1.0, 0.0, 0.0, 1.0};
+  scale_matrix = Utility::getScaleMatrix({2.0, 1.0, 1.0});
+  rotation_matrix =
+      Utility::getRotationMatrix({0.0, 1.0, 0.0}, PI / 2.0);
+  translation_matrix = Utility::getTranslationMatrix({1.0, -1.0, 0.0});
+  
+  const Eigen::Matrix4d &transformation_matrix =
+      translation_matrix * rotation_matrix * scale_matrix;
+
+  Utility::transformVector(point, transformation_matrix);
+  EXPECT_TRUE(point.isApprox(Eigen::Vector4d{1.0, -1.0, -2.0, 1.0}));
 }
 
-TEST(UtilityTest, TestTransformTriangle) {
+TEST(UtilityTests, TestTransformTriangle) {
   // Eigen::Vector4d a{-1.0, 0.0, 0.0, 1.0};
   // Eigen::Vector4d b{1.0, 0.0, 0.0, 1.0};
   // Eigen::Vector4d c{0.0, 2.0, 0.0, 1.0};
@@ -202,70 +246,25 @@ TEST(UtilityTest, TestTransformTriangle) {
   // Utility::transformTriangle();
 }
 
-TEST(UtilityTests, TestRotate) {
-  // static constexpr double PI = 3.141592653589;
+TEST(UtilityTests, TestIsInsideTriangle) {
+  Eigen::Vector4d a{1.0, 1.0, 0.0, 1.0};
+  Eigen::Vector4d b{-1.0, 1.0, 0.0, 1.0};
+  Eigen::Vector4d c{0.0, 1.0, 1.0, 1.0};
+  Triangle triangle{a, b, c};
 
-  // Eigen::Vector4d testp{1.0, 0.0, 0.0, 1.0};
-  // Eigen::Vector3d axis{0.0, 1.0, 0.0};
-  // double angle =  PI / 2.0;
-  // Utility::getRotationMatrix(axis, angle);
-  // EXPECT_TRUE(testp.isApprox(Eigen::Vector4d(0.0, 0.0, -1.0, 1.0)));
+  EXPECT_TRUE(Utility::isInsideTriangle(a, triangle));
+  EXPECT_TRUE(Utility::isInsideTriangle(b, triangle));
+  EXPECT_TRUE(Utility::isInsideTriangle(c, triangle));
+  
+  Eigen::Vector4d a_moved{1.0001, 1.0, 0.0, 1.0};
+  EXPECT_FALSE(Utility::isInsideTriangle(a_moved, triangle));
+  Eigen::Vector4d b_moved{-1.0001, 1.0, 0.0, 1.0};
+  EXPECT_FALSE(Utility::isInsideTriangle(b_moved, triangle));
+  Eigen::Vector4d c_moved{0, 1.0, 1.1, 1.0};
+  EXPECT_FALSE(Utility::isInsideTriangle(c_moved, triangle));
 
-  // testp = {1.0, 0.0, 0.0, 1.0};
-  // axis = {0.0, 0.0, 1.0};
-  // angle =  PI / 2.0;
-  // Utility::rotate(testp, axis, angle);
-  // EXPECT_TRUE(testp.isApprox(Eigen::Vector4d(0.0, 1.0, 0.0, 1.0)));
-
-  // testp = {1.0, 0.0, 0.0, 1.0};
-  // axis = {2.0, 1.0, -0.5};
-  // angle =  PI / 6.0;
-  // Utility::rotate(testp, axis, angle);
-  // EXPECT_TRUE(testp.isApprox(Eigen::Vector4d(0.968101286615, -0.058071003702,
-  // -0.243736860944, 1.0)));
-
-  // testp = {72.98123, -9.8230, -5.9123, 1.0};
-  // axis = {-3.21231, 4.1231, 2.598329};
-  // angle =  PI / 13.0;
-  // Utility::rotate(testp, axis, angle);
-  // EXPECT_TRUE(testp.isApprox(Eigen::Vector4d(71.702884115833,
-  // -3.5623037120199, -17.427362231201, 1.0)));
-}
-
-TEST(UtilityTests, TestTranslate) {
-  // Eigen::Vector4d testp{1.0, 0.0, 0.0, 1.0};
-  // Eigen::Vector4d translation_vect{-1.0, 0.0, 0.0, 0.0};
-  // Utility::translate(testp, translation_vect);
-  // EXPECT_TRUE(testp.isApprox(Eigen::Vector4d(0.0, 0.0, 0.0, 1.0)));
-
-  // testp = {0.0, 0.0, 0.0, 1.0};
-  // translation_vect = {8.98123, -689.123, 82.1232, 0.0};
-  // Utility::translate(testp, translation_vect);
-  // EXPECT_TRUE(testp.isApprox(Eigen::Vector4d(8.98123,
-  // -689.123, 82.1232, 1.0)));
-
-  // testp = {8.98123, -689.123, 82.1232, 1.0};
-  // translation_vect = {0.0, 0.0, 0.0, 0.0};
-  // Utility::translate(testp, translation_vect);
-  // EXPECT_TRUE(testp.isApprox(Eigen::Vector4d(8.98123,
-  // -689.123, 82.1232, 1.0)));
-}
-
-TEST(UtilityTests, TestScale) {
-  // Eigen::Vector4d testp{1.0, 0.0, 0.0, 1.0};
-  // Eigen::Vector4d translation_vect{-1.0, 0.0, 0.0, 0.0};
-  // Utility::translate(testp, translation_vect);
-  // EXPECT_TRUE(testp.isApprox(Eigen::Vector4d(0.0, 0.0, 0.0, 1.0)));
-
-  // testp = {0.0, 0.0, 0.0, 1.0};
-  // translation_vect = {8.98123, -689.123, 82.1232, 0.0};
-  // Utility::translate(testp, translation_vect);
-  // EXPECT_TRUE(testp.isApprox(Eigen::Vector4d(8.98123,
-  // -689.123, 82.1232, 1.0)));
-
-  // testp = {8.98123, -689.123, 82.1232, 1.0};
-  // translation_vect = {0.0, 0.0, 0.0, 0.0};
-  // Utility::translate(testp, translation_vect);
-  // EXPECT_TRUE(testp.isApprox(Eigen::Vector4d(8.98123,
-  // -689.123, 82.1232, 1.0)));
+  Eigen::Vector4d d{0, 1.0, 0.5, 1.0};
+  EXPECT_TRUE(Utility::isInsideTriangle(d, triangle));
+  Eigen::Vector4d d_moved = {0, 1.1, 0.5, 1.0};
+  EXPECT_FALSE(Utility::isInsideTriangle(d_moved, triangle));
 }
