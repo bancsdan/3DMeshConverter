@@ -10,3 +10,7 @@ const char *FileNotFoundException::what() const noexcept {
 const char *IllFormedFileException::what() const noexcept {
   return "Ill formed file, cannot read contents.";
 }
+
+const char *WrongCliArgumentException::what() const noexcept {
+  return "Incorrect command-line arguments.";
+}

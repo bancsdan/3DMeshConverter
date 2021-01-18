@@ -15,4 +15,9 @@ public:
   const char *what() const noexcept;
 };
 
+class WrongCliArgumentException final : public std::exception {
+public:
+  const char *what() const noexcept;
+};
+
 #endif

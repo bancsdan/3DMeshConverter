@@ -4,6 +4,7 @@
 #include <cctype>
 #include <cmath>
 #include <cstdint>
+#include <cstring>
 #include <iostream>
 #include <iterator>
 #include <math.h>
@@ -13,6 +14,7 @@
 #include <vector>
 
 #include "geometry/meshdata.hpp"
+#include "exception.hpp"
 #include "reader/supported_input_formats.hpp"
 #include "utility.hpp"
 #include "writer/supported_output_formats.hpp"
@@ -21,8 +23,34 @@ namespace Converter {
 
 namespace Utility {
 
-void parseArgs(int argc, char *argv[]) {
-  
+ParsedArgs parseArgs(int argc, char *argv[]) {
+  try {
+    ParsedArgs args;
+    for (int i = 0; i < argc; ++i) {
+      if (strcmp(argv[i], "--help") || strcmp(argv[i], "-h")) {
+        displayHelp(argv);
+      }
+      if (strcmp(argv[i], "--scale")) {
+        const double x_scale = std::stod(argv[i + 1]);
+        const double y_scale = std::stod(argv[i + 2]);
+        const double z_scale = std::stod(argv[i + 3]);
+      }
+      if (strcmp(argv[i], "--rotate")) {
+        const double axis_x = std::stod(argv[i + 1]);
+        const double axis_y = std::stod(argv[i + 2]);
+        const double axis_z = std::stod(argv[i + 3]);
+        const double angle = std::stod(argv[i + 4]);
+      }
+      if (strcmp(argv[i], "--translate")) {
+        const double x_translation = std::stod(argv[i + 1]);
+        const double y_translation = std::stod(argv[i + 2]);
+        const double z_translation = std::stod(argv[i + 3]);
+      }
+    }
+    return args;
+  } catch (const std::exception &) {
+    throw WrongCliArgumentException();
+  }
 }
 
 void displayHelp(char *argv[]) {
@@ -121,8 +149,8 @@ bool isPointInsideMesh(const MeshData &mesh, const Eigen::Vector4d &point) {
 
 std::optional<Eigen::Vector4d>
 Helpers::rayTriangleIntersection(const Eigen::Vector4d &ray_starting_point,
-                        const Eigen::Vector4d &ray_direction,
-                        const Triangle &triangle) {
+                                 const Eigen::Vector4d &ray_direction,
+                                 const Triangle &triangle) {
   const auto &triangle_normal = triangle.getNormal();
 
   const double d = triangle_normal.dot(triangle.m_a.m_pos);
@@ -146,7 +174,8 @@ Helpers::rayTriangleIntersection(const Eigen::Vector4d &ray_starting_point,
   return {};
 }
 
-bool Helpers::isInsideTriangle(const Eigen::Vector4d &point, const Triangle &triangle) {
+bool Helpers::isInsideTriangle(const Eigen::Vector4d &point,
+                               const Triangle &triangle) {
   const auto &a = triangle.m_a.m_pos;
   const auto &b = triangle.m_b.m_pos;
   const auto &c = triangle.m_c.m_pos;
@@ -176,18 +205,18 @@ void transformMesh(MeshData &mesh, const Eigen::Matrix4d &translation_matrix,
 
   for (auto &triangle : mesh.m_triangles) {
     Helpers::transformTriangle(triangle, transformation_matrix,
-                      normal_transformation_matrix);
+                               normal_transformation_matrix);
   }
 }
 
 void Helpers::transformVector(Eigen::Vector4d &point,
-                     const Eigen::Matrix4d &transform_matrix) {
+                              const Eigen::Matrix4d &transform_matrix) {
   point = transform_matrix * point;
 }
 
-void Helpers::transformTriangle(Triangle &triangle,
-                       const Eigen::Matrix4d &transform_matrix,
-                       const Eigen::Matrix4d &transform_matrix_for_normal) {
+void Helpers::transformTriangle(
+    Triangle &triangle, const Eigen::Matrix4d &transform_matrix,
+    const Eigen::Matrix4d &transform_matrix_for_normal) {
   transformVector(triangle.m_a.m_pos, transform_matrix);
   transformVector(triangle.m_b.m_pos, transform_matrix);
   transformVector(triangle.m_c.m_pos, transform_matrix);

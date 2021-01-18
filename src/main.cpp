@@ -64,18 +64,20 @@ int main(int argc, char *argv[]) {
     return -1;
   }
 
-  
-  const auto& scale_matrix = Utility::getScaleMatrix({1.0, 2.0, 1.0});
-  const auto& rotation_matrix = Utility::getRotationMatrix({0.0, 0.0, 0.0}, 0.0);
-  const auto& translation_matrix = Utility::getTranslationMatrix({0.0, 0.0, 0.0});
-  Utility::transformMesh(mesh, translation_matrix, rotation_matrix, scale_matrix);
+  const auto &scale_matrix = Utility::getScaleMatrix({1.0, 2.0, 1.0});
+  const auto &rotation_matrix =
+      Utility::getRotationMatrix({0.0, 0.0, 0.0}, 0.0);
+  const auto &translation_matrix =
+      Utility::getTranslationMatrix({0.0, 0.0, 0.0});
+  Utility::transformMesh(mesh, translation_matrix, rotation_matrix,
+                         scale_matrix);
 
   std::cout << std::setprecision(std::numeric_limits<double>::digits10)
             << "Area: " << Utility::calculateMeshSurfaceArea(mesh) << std::endl;
 
   std::cout << std::setprecision(std::numeric_limits<double>::digits10)
             << "Volume: " << Utility::calculateMeshVolume(mesh) << std::endl;
-  
+
   auto writer = WriterFactory::createWriter(output_extension_enum);
   try {
     if (writer) {
