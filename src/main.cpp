@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
 
   if (argc != 3) {
     Utility::displayHelp(argv);
-    return 1;
+    return -1;
   }
 
   if constexpr (!std::numeric_limits<float>::is_iec559 || sizeof(float) != 4U) {

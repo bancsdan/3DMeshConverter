@@ -21,6 +21,10 @@ namespace Converter {
 
 namespace Utility {
 
+void parseArgs(int argc, char *argv[]) {
+  
+}
+
 void displayHelp(char *argv[]) {
   std::cout << "Usage: " << argv[0] << " <inputfile> <outputfile>" << std::endl
             << std::endl;
