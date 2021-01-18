@@ -42,12 +42,12 @@ int main(int argc, char *argv[]) {
   const auto output_extension_enum =
       Writer::convertOutputFormatToEnum(output_extension);
 
-  if (!Reader::isSupportedInputFormat(input_extension_enum)) {
+  if (input_extension_enum == Reader::InputFormat::INVALID) {
     std::cerr << "ERROR: Input file format not supported." << std::endl;
     return -1;
   }
 
-  if (!Writer::isSupportedOutputFormat(output_extension_enum)) {
+  if (output_extension_enum == Writer::OutputFormat::INVALID) {
     std::cerr << "ERROR: Output file format not supported." << std::endl;
     return -1;
   }
@@ -64,17 +64,19 @@ int main(int argc, char *argv[]) {
     return -1;
   }
 
-  // ApplyTranformation(mesh, tranfrom);
-  auto writer = WriterFactory::createWriter(output_extension_enum);
+  
+  const auto& scale_matrix = Utility::getScaleMatrix({1.0, 2.0, 1.0});
+  const auto& rotation_matrix = Utility::getRotationMatrix({0.0, 0.0, 0.0}, 0.0);
+  const auto& translation_matrix = Utility::getTranslationMatrix({0.0, 0.0, 0.0});
+  Utility::transformMesh(mesh, translation_matrix, rotation_matrix, scale_matrix);
 
-  // print area
   std::cout << std::setprecision(std::numeric_limits<double>::digits10)
             << "Area: " << Utility::calculateMeshSurfaceArea(mesh) << std::endl;
 
-  // print volume
   std::cout << std::setprecision(std::numeric_limits<double>::digits10)
             << "Volume: " << Utility::calculateMeshVolume(mesh) << std::endl;
-
+  
+  auto writer = WriterFactory::createWriter(output_extension_enum);
   try {
     if (writer) {
       writer->write(output_filename, mesh);

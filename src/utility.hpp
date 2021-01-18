@@ -32,6 +32,12 @@ double calculateMeshVolume(const MeshData &mesh);
 
 bool isPointInsideMesh(const MeshData &mesh, const Eigen::Vector4d &point);
 
+void transformMesh(MeshData &mesh, const Eigen::Matrix4d &translation_matrix,
+                   const Eigen::Matrix4d &rotation_matrix,
+                   const Eigen::Matrix4d &scale_matrix);
+
+namespace Helpers {
+
 bool isInsideTriangle(const Eigen::Vector4d &point, const Triangle &triangle);
 
 std::optional<Eigen::Vector4d>
@@ -39,16 +45,13 @@ rayTriangleIntersection(const Eigen::Vector4d &ray_starting_point,
                         const Eigen::Vector4d &ray_direction,
                         const Triangle &triangle);
 
-void transformMesh(MeshData &mesh, const Eigen::Matrix4d &translation_matrix,
-                   const Eigen::Matrix4d &rotation_matrix,
-                   const Eigen::Matrix4d &scale_matrix);
-
 void transformVector(Eigen::Vector4d &point,
                      const Eigen::Matrix4d &transform_matrix);
 
 void transformTriangle(Triangle &triangle,
                        const Eigen::Matrix4d &transform_matrix,
                        const Eigen::Matrix4d &transform_matrix_for_normal);
+}
 
 Eigen::Matrix4d getTranslationMatrix(const Eigen::Vector3d &translation);
 

@@ -92,12 +92,12 @@ bool isPointInsideMesh(const MeshData &mesh, const Eigen::Vector4d &point) {
 
   for (const auto &triangle : mesh.m_triangles) {
 
-    if (isInsideTriangle(point, triangle)) {
+    if (Helpers::isInsideTriangle(point, triangle)) {
       return true;
     }
 
     const auto &intersection =
-        rayTriangleIntersection(point, {0.0, 1.0, 0.0, 0.0}, triangle);
+        Helpers::rayTriangleIntersection(point, {0.0, 1.0, 0.0, 0.0}, triangle);
 
     if (intersection) {
 
@@ -116,12 +116,10 @@ bool isPointInsideMesh(const MeshData &mesh, const Eigen::Vector4d &point) {
 }
 
 std::optional<Eigen::Vector4d>
-rayTriangleIntersection(const Eigen::Vector4d &ray_starting_point,
+Helpers::rayTriangleIntersection(const Eigen::Vector4d &ray_starting_point,
                         const Eigen::Vector4d &ray_direction,
                         const Triangle &triangle) {
   const auto &a = triangle.m_a.m_pos;
-  const auto &b = triangle.m_b.m_pos;
-  const auto &c = triangle.m_c.m_pos;
   const auto &triangle_normal = triangle.getNormal();
 
   const double d = triangle_normal.dot(a);
@@ -140,12 +138,12 @@ rayTriangleIntersection(const Eigen::Vector4d &ray_starting_point,
   const auto &intersection_point =
       ray_starting_point + t * ray_direction.normalized();
 
-  if (isInsideTriangle(intersection_point, triangle))
+  if (Helpers::isInsideTriangle(intersection_point, triangle))
     return {intersection_point};
   return {};
 }
 
-bool isInsideTriangle(const Eigen::Vector4d &point, const Triangle &triangle) {
+bool Helpers::isInsideTriangle(const Eigen::Vector4d &point, const Triangle &triangle) {
   const auto &a = triangle.m_a.m_pos;
   const auto &b = triangle.m_b.m_pos;
   const auto &c = triangle.m_c.m_pos;
@@ -174,17 +172,17 @@ void transformMesh(MeshData &mesh, const Eigen::Matrix4d &translation_matrix,
       (rotation_matrix * scale_matrix).inverse().transpose();
 
   for (auto &triangle : mesh.m_triangles) {
-    transformTriangle(triangle, transformation_matrix,
+    Helpers::transformTriangle(triangle, transformation_matrix,
                       normal_transformation_matrix);
   }
 }
 
-void transformVector(Eigen::Vector4d &point,
+void Helpers::transformVector(Eigen::Vector4d &point,
                      const Eigen::Matrix4d &transform_matrix) {
   point = transform_matrix * point;
 }
 
-void transformTriangle(Triangle &triangle,
+void Helpers::transformTriangle(Triangle &triangle,
                        const Eigen::Matrix4d &transform_matrix,
                        const Eigen::Matrix4d &transform_matrix_for_normal) {
   transformVector(triangle.m_a.m_pos, transform_matrix);
