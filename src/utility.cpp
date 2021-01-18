@@ -119,10 +119,9 @@ std::optional<Eigen::Vector4d>
 Helpers::rayTriangleIntersection(const Eigen::Vector4d &ray_starting_point,
                         const Eigen::Vector4d &ray_direction,
                         const Triangle &triangle) {
-  const auto &a = triangle.m_a.m_pos;
   const auto &triangle_normal = triangle.getNormal();
 
-  const double d = triangle_normal.dot(a);
+  const double d = triangle_normal.dot(triangle.m_a.m_pos);
   const double det = triangle_normal.dot(ray_direction.normalized());
 
   if (isEqual(det, 0.0)) {
