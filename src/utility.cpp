@@ -137,7 +137,8 @@ rayTriangleIntersection(const Eigen::Vector4d &ray_starting_point,
     return {};
   }
 
-  const auto &intersection_point = ray_starting_point + t * ray_direction.normalized();
+  const auto &intersection_point =
+      ray_starting_point + t * ray_direction.normalized();
 
   if (isInsideTriangle(intersection_point, triangle))
     return {intersection_point};
@@ -150,7 +151,7 @@ bool isInsideTriangle(const Eigen::Vector4d &point, const Triangle &triangle) {
   const auto &c = triangle.m_c.m_pos;
   const auto &triangle_normal = triangle.getNormal();
 
-  if ( !isEqual( (a - point).dot(triangle_normal), 0.0 ) ) {
+  if (!isEqual((a - point).dot(triangle_normal), 0.0)) {
     return false;
   }
 
@@ -193,6 +194,10 @@ void transformTriangle(Triangle &triangle,
   transformVector(triangle.m_a.m_normal, transform_matrix_for_normal);
   transformVector(triangle.m_b.m_normal, transform_matrix_for_normal);
   transformVector(triangle.m_c.m_normal, transform_matrix_for_normal);
+
+  triangle.m_a.m_normal.normalize();
+  triangle.m_b.m_normal.normalize();
+  triangle.m_c.m_normal.normalize();
 }
 
 Eigen::Matrix4d getTranslationMatrix(const Eigen::Vector3d &translation) {
