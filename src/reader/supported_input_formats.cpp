@@ -19,8 +19,4 @@ Reader::convertInputFormatToEnum(const std::string &format) {
   return InputFormat::INVALID;
 }
 
-bool Reader::isSupportedInputFormat(InputFormat format) {
-  return format != InputFormat::INVALID;
-}
-
 } // namespace Converter

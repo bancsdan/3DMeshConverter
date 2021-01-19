@@ -17,8 +17,4 @@ Writer::convertOutputFormatToEnum(const std::string &format) {
   return OutputFormat::INVALID;
 }
 
-bool Writer::isSupportedOutputFormat(OutputFormat format) {
-  return format != OutputFormat::INVALID;
-}
-
 } // namespace Converter

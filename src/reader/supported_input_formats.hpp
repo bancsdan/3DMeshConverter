@@ -14,7 +14,6 @@ static constexpr std::array<std::pair<const char *, InputFormat>, 1>
     supported_input_formats_map{std::make_pair(".obj", InputFormat::OBJ)};
 
 InputFormat convertInputFormatToEnum(const std::string &format);
-bool isSupportedInputFormat(InputFormat format);
 
 } // namespace Reader
 } // namespace Converter
