@@ -5,6 +5,8 @@
 #include <iostream>
 #include <limits>
 #include <string>
+#include <optional>
+#include <Eigen/Dense>
 
 #include "CLI11.hpp"
 #include "exception.hpp"
@@ -27,8 +29,7 @@ int main(int argc, char *argv[]) {
 
   CLI::App app{"A 3D model file converter."};
   std::array<double, 3> scale_args;
-  app.add_option(
-      "--scale", scale_args,
+  app.add_option("--scale", scale_args,
       "Specifies the (x,y,z) scale of the scaling. Default is (1,1,1).");
   std::array<double, 4> rotation_args;
   app.add_option("--rotate", rotation_args,
@@ -48,6 +49,10 @@ int main(int argc, char *argv[]) {
   app.add_option("--output", output_filename, "The path to the output file.")
       ->required();
   CLI11_PARSE(app, argc, argv);
+
+  const bool scale_set = app.count("--scale") > 0;
+  const bool rotation_set = app.count("--rotate") > 0;
+  const bool translation_set = app.count("--translate") > 0;
 
   try {
     auto input_extension = Utility::toLower(
@@ -72,6 +77,28 @@ int main(int argc, char *argv[]) {
     MeshData mesh;
     if (reader) {
       mesh = reader->read(input_filename);
+    }
+
+    if (scale_set || rotation_set || translation_set) {
+      Eigen::Matrix4d scale_matrix;
+      scale_matrix.setIdentity();
+      if (scale_set) {
+        scale_matrix = Utility::getScaleMatrix({scale_args[0], scale_args[1], scale_args[2]});
+      }
+
+      Eigen::Matrix4d rotation_matrix;
+      rotation_matrix.setIdentity();
+      if (rotation_set) {
+        rotation_matrix = Utility::getRotationMatrix({rotation_args[0], rotation_args[1], rotation_args[2]}, rotation_args[3]);
+      }
+
+      Eigen::Matrix4d translation_matrix;
+      translation_matrix.setIdentity();
+      if (translation_set) {
+        translation_matrix = Utility::getTranslationMatrix({translation_args[0], translation_args[1], translation_args[2]});
+      }
+
+      Utility::transformMesh(mesh, translation_matrix, rotation_matrix, scale_matrix);
     }
 
     std::cout << std::setprecision(std::numeric_limits<double>::digits10)

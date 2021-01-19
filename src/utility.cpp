@@ -26,13 +26,13 @@ namespace Utility {
 void displaySupportedFormats() {
   std::cout << "Currently supported input filetypes:" << std::endl;
   for (const auto &format_pair : Reader::supported_input_formats_map) {
-    std::cout << "\t." << format_pair.first << std::endl;
+    std::cout << "\t" << format_pair.first << std::endl;
   }
   std::cout << std::endl;
 
   std::cout << "Currently supported output filetypes:" << std::endl;
   for (const auto format_pair : Writer::supported_output_formats_map) {
-    std::cout << "\t." << format_pair.first << std::endl;
+    std::cout << "\t" << format_pair.first << std::endl;
   }
   std::cout << std::endl;
 }
