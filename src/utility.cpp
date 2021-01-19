@@ -13,8 +13,8 @@
 #include <string>
 #include <vector>
 
-#include "geometry/meshdata.hpp"
 #include "exception.hpp"
+#include "geometry/meshdata.hpp"
 #include "reader/supported_input_formats.hpp"
 #include "utility.hpp"
 #include "writer/supported_output_formats.hpp"
@@ -23,40 +23,7 @@ namespace Converter {
 
 namespace Utility {
 
-ParsedArgs parseArgs(int argc, char *argv[]) {
-  try {
-    ParsedArgs args;
-    for (int i = 0; i < argc; ++i) {
-      if (strcmp(argv[i], "--help") || strcmp(argv[i], "-h")) {
-        displayHelp(argv);
-      }
-      if (strcmp(argv[i], "--scale")) {
-        const double x_scale = std::stod(argv[i + 1]);
-        const double y_scale = std::stod(argv[i + 2]);
-        const double z_scale = std::stod(argv[i + 3]);
-      }
-      if (strcmp(argv[i], "--rotate")) {
-        const double axis_x = std::stod(argv[i + 1]);
-        const double axis_y = std::stod(argv[i + 2]);
-        const double axis_z = std::stod(argv[i + 3]);
-        const double angle = std::stod(argv[i + 4]);
-      }
-      if (strcmp(argv[i], "--translate")) {
-        const double x_translation = std::stod(argv[i + 1]);
-        const double y_translation = std::stod(argv[i + 2]);
-        const double z_translation = std::stod(argv[i + 3]);
-      }
-    }
-    return args;
-  } catch (const std::exception &) {
-    throw WrongCliArgumentException();
-  }
-}
-
-void displayHelp(char *argv[]) {
-  std::cout << "Usage: " << argv[0] << " <inputfile> <outputfile>" << std::endl
-            << std::endl;
-
+void displaySupportedFormats() {
   std::cout << "Currently supported input filetypes:" << std::endl;
   for (const auto &format_pair : Reader::supported_input_formats_map) {
     std::cout << "\t." << format_pair.first << std::endl;

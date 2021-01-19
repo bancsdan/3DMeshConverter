@@ -22,11 +22,15 @@ target_include_directories(${BINARY}_cli PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
 target_include_directories(${BINARY}_cli PRIVATE
   "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/lib/Eigen>")
+target_include_directories(${BINARY}_cli PRIVATE
+"$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/lib/CLIUtils>")
 
 target_include_directories(${BINARY}_lib PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
 target_include_directories(${BINARY}_lib PRIVATE
   "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/lib/Eigen>")
+  target_include_directories(${BINARY}_lib PRIVATE
+"$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/lib/CLIUtils>")
 
 target_compile_features(${BINARY}_cli PRIVATE cxx_std_17)
 target_compile_features(${BINARY}_lib PRIVATE cxx_std_17)

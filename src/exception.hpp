@@ -15,7 +15,15 @@ public:
   const char *what() const noexcept;
 };
 
-class WrongCliArgumentException final : public std::exception {
+class UnsupportedFormatException : public std::exception {
+};
+
+class UnsupportedInputFormatException final : public UnsupportedFormatException {
+public:
+  const char *what() const noexcept;
+};
+
+class UnsupportedOutputFormatException final : public UnsupportedFormatException {
 public:
   const char *what() const noexcept;
 };

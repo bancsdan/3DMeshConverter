@@ -15,17 +15,7 @@ struct MeshData;
 
 namespace Utility {
 
-struct ParsedArgs {
-  std::string input_file_name{};
-  std::string output_file_name{};
-
-  std::optional<Eigen::Matrix4d> scale_matrix_opt{};
-  std::optional<Eigen::Matrix4d> rotate_matrix_opt{};
-  std::optional<Eigen::Matrix4d> transform_matrix_opt{};
-};
-
-ParsedArgs parseArgs(int argc, char *argv[]);
-void displayHelp(char *argv[]);
+void displaySupportedFormats();
 std::string toLower(std::string str);
 std::vector<std::string> splitString(const std::string &str,
                                      std::string::value_type delim);
