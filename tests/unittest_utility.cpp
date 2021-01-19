@@ -170,8 +170,7 @@ TEST(UtilityTests, TestRayTriangleIntersection) {
 
   Eigen::Vector4d ray_start_point{0.0, 0.0, 0.5, 1.0};
   Eigen::Vector4d ray_dir{0.0, -1.0, 0.0, 0.0};
-  auto hit =
-      rayTriangleIntersection(ray_start_point, ray_dir, triangle);
+  auto hit = rayTriangleIntersection(ray_start_point, ray_dir, triangle);
   EXPECT_FALSE(hit);
 
   ray_start_point = {0.0, 0.0, 0.5, 1.0};
@@ -261,16 +260,14 @@ TEST(UtilityTests, TestTransformVector) {
   EXPECT_TRUE(point.isApprox(Eigen::Vector4d{-1.0, 0.0, 0.0, 1.0}));
 
   point = {-1.0, 0.0, 0.0, 1.0};
-  rotation_matrix =
-      getRotationMatrix({8.213, -5.231, 1.894}, PI / 5.0);
+  rotation_matrix = getRotationMatrix({8.213, -5.231, 1.894}, PI / 5.0);
   transformVector(point, rotation_matrix);
   EXPECT_TRUE(point.isApprox(
       Eigen::Vector4d{-0.939931, -0.0288444, -0.340144, 1.0}, EPSILON));
 
   // pure translations
   point = {-1.0, 0.0, 0.0, 1.0};
-  Eigen::Matrix4d translation_matrix =
-      getTranslationMatrix({0.0, 0.0, 0.0});
+  Eigen::Matrix4d translation_matrix = getTranslationMatrix({0.0, 0.0, 0.0});
   transformVector(point, translation_matrix);
   EXPECT_TRUE(point.isApprox(Eigen::Vector4d{-1.0, 0.0, 0.0, 1.0}));
 
@@ -326,8 +323,7 @@ TEST(UtilityTests, TestTransformTriangle) {
   Triangle test_triangle = original_triangle;
   auto rotation_matrix = getRotationMatrix({0.0, 1.0, 0.0}, PI / 2.0);
   auto normal_rotation_matrix = rotation_matrix.inverse().transpose();
-  transformTriangle(test_triangle, rotation_matrix,
-                             normal_rotation_matrix);
+  transformTriangle(test_triangle, rotation_matrix, normal_rotation_matrix);
 
   EXPECT_TRUE(
       test_triangle.m_a.m_pos.isApprox(Eigen::Vector4d{1.0, 0.0, -1.0, 1.0}));
@@ -374,12 +370,10 @@ TEST(UtilityTests, TestGetTranslationMatrix) {
   transform(0, 3) = 1.0;
   transform(1, 3) = 1.0;
   transform(2, 3) = 1.0;
-  EXPECT_TRUE(
-      transform.isApprox(getTranslationMatrix({1.0, 1.0, 1.0})));
+  EXPECT_TRUE(transform.isApprox(getTranslationMatrix({1.0, 1.0, 1.0})));
 
   transform.setIdentity();
-  EXPECT_TRUE(
-      transform.isApprox(getTranslationMatrix({0.0, 0.0, 0.0})));
+  EXPECT_TRUE(transform.isApprox(getTranslationMatrix({0.0, 0.0, 0.0})));
 }
 
 TEST(UtilityTests, TestGetRotationMatrix) {

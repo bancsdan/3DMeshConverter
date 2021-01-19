@@ -1,12 +1,12 @@
+#include <Eigen/Dense>
 #include <array>
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <limits>
-#include <string>
 #include <optional>
-#include <Eigen/Dense>
+#include <string>
 
 #include "CLI11.hpp"
 #include "exception.hpp"
@@ -29,7 +29,8 @@ int main(int argc, char *argv[]) {
 
   CLI::App app{"A 3D model file converter."};
   std::array<double, 3> scale_args;
-  app.add_option("--scale", scale_args,
+  app.add_option(
+      "--scale", scale_args,
       "Specifies the (x,y,z) scale of the scaling. Default is (1,1,1).");
   std::array<double, 4> rotation_args;
   app.add_option("--rotate", rotation_args,
@@ -83,22 +84,27 @@ int main(int argc, char *argv[]) {
       Eigen::Matrix4d scale_matrix;
       scale_matrix.setIdentity();
       if (scale_set) {
-        scale_matrix = Utility::getScaleMatrix({scale_args[0], scale_args[1], scale_args[2]});
+        scale_matrix = Utility::getScaleMatrix(
+            {scale_args[0], scale_args[1], scale_args[2]});
       }
 
       Eigen::Matrix4d rotation_matrix;
       rotation_matrix.setIdentity();
       if (rotation_set) {
-        rotation_matrix = Utility::getRotationMatrix({rotation_args[0], rotation_args[1], rotation_args[2]}, rotation_args[3]);
+        rotation_matrix = Utility::getRotationMatrix(
+            {rotation_args[0], rotation_args[1], rotation_args[2]},
+            rotation_args[3]);
       }
 
       Eigen::Matrix4d translation_matrix;
       translation_matrix.setIdentity();
       if (translation_set) {
-        translation_matrix = Utility::getTranslationMatrix({translation_args[0], translation_args[1], translation_args[2]});
+        translation_matrix = Utility::getTranslationMatrix(
+            {translation_args[0], translation_args[1], translation_args[2]});
       }
 
-      Utility::transformMesh(mesh, translation_matrix, rotation_matrix, scale_matrix);
+      Utility::transformMesh(mesh, translation_matrix, rotation_matrix,
+                             scale_matrix);
     }
 
     std::cout << std::setprecision(std::numeric_limits<double>::digits10)
@@ -112,7 +118,7 @@ int main(int argc, char *argv[]) {
     if (writer) {
       writer->write(output_filename, mesh);
     }
-  } catch (const UnsupportedFormatException &e)  {
+  } catch (const UnsupportedFormatException &e) {
     std::cerr << "ERROR: " << e.what() << std::endl;
     Utility::displaySupportedFormats();
     return -1;

@@ -15,15 +15,16 @@ public:
   const char *what() const noexcept;
 };
 
-class UnsupportedFormatException : public std::exception {
-};
+class UnsupportedFormatException : public std::exception {};
 
-class UnsupportedInputFormatException final : public UnsupportedFormatException {
+class UnsupportedInputFormatException final
+    : public UnsupportedFormatException {
 public:
   const char *what() const noexcept;
 };
 
-class UnsupportedOutputFormatException final : public UnsupportedFormatException {
+class UnsupportedOutputFormatException final
+    : public UnsupportedFormatException {
 public:
   const char *what() const noexcept;
 };
