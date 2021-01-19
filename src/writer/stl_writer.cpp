@@ -5,6 +5,7 @@
 #include <functional>
 #include <iostream>
 #include <sstream>
+#include <fstream>
 
 #include "geometry/meshdata.hpp"
 #include "stl_writer.hpp"
@@ -12,24 +13,21 @@
 
 namespace Converter {
 
-void StlWriter::write(const std::string &file_name,
+void StlWriter::write(std::ostream &out_file,
                       const MeshData &mesh) const {
-  std::ofstream out_file;
-  out_file.open(file_name, std::ios_base::binary);
-
   writeHeader(out_file);
   writeNumOfTriangles(out_file, mesh);
   writeTriangles(out_file, mesh);
 }
 
-void StlWriter::writeHeader(std::ofstream &out_file) const {
+void StlWriter::writeHeader(std::ostream &out_file) const {
   std::array<char, c_header_size_in_bytes> header_buffer;
   header_buffer.fill(static_cast<char>(0));
 
   out_file.write(header_buffer.data(), c_header_size_in_bytes);
 }
 
-void StlWriter::writeNumOfTriangles(std::ofstream &out_file,
+void StlWriter::writeNumOfTriangles(std::ostream &out_file,
                                     const MeshData &mesh) const {
   std::uint32_t number_of_triangles =
       static_cast<std::uint32_t>(mesh.m_triangles.size());
@@ -41,7 +39,7 @@ void StlWriter::writeNumOfTriangles(std::ofstream &out_file,
   out_file.write((const char *)(&number_of_triangles), sizeof(std::uint32_t));
 }
 
-void StlWriter::writeTriangles(std::ofstream &out_file,
+void StlWriter::writeTriangles(std::ostream &out_file,
                                const MeshData &mesh) const {
   const bool needs_byte_swap = !Utility::isFloatLittleEndian();
 

@@ -3,7 +3,7 @@
 #include "reader/supported_input_formats.hpp"
 #include "gtest/gtest.h"
 
-namespace Converter {
+using namespace Converter;
 
 TEST(SupportedInputFormatsTests, TestConvertInputFormatToEnum) {
   std::string format = ".obj";
@@ -12,5 +12,3 @@ TEST(SupportedInputFormatsTests, TestConvertInputFormatToEnum) {
   EXPECT_EQ(Reader::convertInputFormatToEnum(format),
             Reader::InputFormat::INVALID);
 }
-
-} // namespace Converter

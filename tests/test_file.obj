@@ -1,0 +1,19 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 21.08.2014 17:37:51
+
+mtllib FinalBaseMesh.mtl
+
+#
+# object Group1
+#
+
+v  -1.3143 15.0686 -1.6458
+v  -1.4575 15.1137 -1.5916
+v  -1.3688 15.2156 -1.6669
+vn -0.3819 -0.2594 -0.8871
+vn -0.4376 -0.2949 -0.8495
+vn -0.3783 -0.2771 -0.8832
+vt 1 0 0
+vt 1 1 0
+vt 0 1 1
+f 1/1/1 2/2/2 3/3/3 

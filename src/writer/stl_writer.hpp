@@ -9,16 +9,16 @@ namespace Converter {
 
 struct MeshData;
 
-class StlWriter final : public IWriter {
-private:
+class StlWriter : public IWriter {
+protected:
   static constexpr unsigned int c_header_size_in_bytes = 80U;
 
-  void writeHeader(std::ofstream &out_file) const;
-  void writeNumOfTriangles(std::ofstream &out_file, const MeshData &mesh) const;
-  void writeTriangles(std::ofstream &out_file, const MeshData &mesh) const;
+  void writeHeader(std::ostream &out_file) const;
+  void writeNumOfTriangles(std::ostream &out_file, const MeshData &mesh) const;
+  void writeTriangles(std::ostream &out_file, const MeshData &mesh) const;
 
 public:
-  void write(const std::string &file_name,
+  void write(std::ostream &out_file,
              const MeshData &mesh) const final override;
 };
 

@@ -45,19 +45,6 @@ std::string toLower(std::string str) {
   return str;
 }
 
-std::vector<std::string> splitString(const std::string &str,
-                                     std::string::value_type delim) {
-  std::vector<std::string> result;
-  std::istringstream ss(str);
-  std::string token;
-
-  while (std::getline(ss, token, delim)) {
-    result.push_back(token);
-  }
-
-  return result;
-}
-
 std::vector<std::string> splitString(const std::string &str) {
   std::istringstream buffer(str);
   std::vector<std::string> result{std::istream_iterator<std::string>(buffer),
@@ -66,7 +53,7 @@ std::vector<std::string> splitString(const std::string &str) {
 }
 
 bool startsWith(const std::string &str, const char *start) {
-  return str.rfind(start, 0) == 0;
+  return str.rfind(start, 0U) == 0U;
 }
 
 double calculateMeshSurfaceArea(const MeshData &mesh) {

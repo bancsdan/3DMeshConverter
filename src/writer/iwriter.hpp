@@ -2,6 +2,7 @@
 #define IWRITER_HPP
 
 #include <string>
+#include <fstream>
 
 namespace Converter {
 
@@ -10,7 +11,7 @@ struct MeshData;
 class IWriter {
 public:
   virtual ~IWriter() = default;
-  virtual void write(const std::string &file_name,
+  virtual void write(std::ostream &out_file,
                      const MeshData &mesh) const = 0;
 };
 } // namespace Converter

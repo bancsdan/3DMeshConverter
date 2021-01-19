@@ -51,9 +51,9 @@ int main(int argc, char *argv[]) {
       ->required();
   CLI11_PARSE(app, argc, argv);
 
-  const bool scale_set = app.count("--scale") > 0;
-  const bool rotation_set = app.count("--rotate") > 0;
-  const bool translation_set = app.count("--translate") > 0;
+  const bool scale_set = app.count("--scale") > 0U;
+  const bool rotation_set = app.count("--rotate") > 0U;
+  const bool translation_set = app.count("--translate") > 0U;
 
   try {
     auto input_extension = Utility::toLower(
@@ -77,7 +77,12 @@ int main(int argc, char *argv[]) {
     auto reader = ReaderFactory::createReader(input_extension_enum);
     MeshData mesh;
     if (reader) {
-      mesh = reader->read(input_filename);
+      std::ifstream in_file_stream;
+      in_file_stream.open(input_filename);
+      if (!in_file_stream) {
+        throw FileNotFoundException();
+      }
+      mesh = reader->read(in_file_stream);
     }
 
     if (scale_set || rotation_set || translation_set) {
@@ -85,22 +90,22 @@ int main(int argc, char *argv[]) {
       scale_matrix.setIdentity();
       if (scale_set) {
         scale_matrix = Utility::getScaleMatrix(
-            {scale_args[0], scale_args[1], scale_args[2]});
+            {scale_args[0U], scale_args[1U], scale_args[2U]});
       }
 
       Eigen::Matrix4d rotation_matrix;
       rotation_matrix.setIdentity();
       if (rotation_set) {
         rotation_matrix = Utility::getRotationMatrix(
-            {rotation_args[0], rotation_args[1], rotation_args[2]},
-            rotation_args[3]);
+            {rotation_args[0U], rotation_args[1U], rotation_args[2U]},
+            rotation_args[3U]);
       }
 
       Eigen::Matrix4d translation_matrix;
       translation_matrix.setIdentity();
       if (translation_set) {
         translation_matrix = Utility::getTranslationMatrix(
-            {translation_args[0], translation_args[1], translation_args[2]});
+            {translation_args[0U], translation_args[1U], translation_args[2U]});
       }
 
       Utility::transformMesh(mesh, translation_matrix, rotation_matrix,
@@ -116,7 +121,9 @@ int main(int argc, char *argv[]) {
     auto writer = WriterFactory::createWriter(output_extension_enum);
 
     if (writer) {
-      writer->write(output_filename, mesh);
+      std::ofstream out_file;
+      out_file.open(output_filename, std::ios_base::binary);
+      writer->write(out_file, mesh);
     }
   } catch (const UnsupportedFormatException &e) {
     std::cerr << "ERROR: " << e.what() << std::endl;

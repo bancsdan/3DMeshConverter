@@ -32,7 +32,10 @@ bool Triangle::operator==(const Triangle &other) const {
          m_c.m_pos.isApprox(other.m_c.m_pos) &&
          m_a.m_normal.isApprox(other.m_a.m_normal) &&
          m_b.m_normal.isApprox(other.m_b.m_normal) &&
-         m_c.m_normal.isApprox(other.m_c.m_normal);
+         m_c.m_normal.isApprox(other.m_c.m_normal) &&
+         m_a.m_texture.isApprox(other.m_a.m_texture) &&
+         m_b.m_texture.isApprox(other.m_b.m_texture) &&
+         m_c.m_texture.isApprox(other.m_c.m_texture);
 }
 
 } // namespace Converter

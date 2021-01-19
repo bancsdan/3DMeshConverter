@@ -17,8 +17,6 @@ namespace Utility {
 
 void displaySupportedFormats();
 std::string toLower(std::string str);
-std::vector<std::string> splitString(const std::string &str,
-                                     std::string::value_type delim);
 std::vector<std::string> splitString(const std::string &str);
 bool startsWith(const std::string &str, const char *start);
 double calculateMeshSurfaceArea(const MeshData &mesh);
@@ -58,7 +56,7 @@ inline bool isEqual(double a, double b, double epsilon = 0.00000001) {
 inline bool isIntegerLittleEndian() {
   static std::int16_t i = 1;
   static const char *p = (const char *)&i;
-  return p[0] == 1;
+  return p[0U] == 1;
 }
 
 /*
@@ -70,7 +68,7 @@ inline bool isIntegerLittleEndian() {
 inline bool isFloatLittleEndian() {
   static const float i = -1.0f;
   static const char *p = (const char *)&i;
-  return p[0] == 0;
+  return p[0U] == 0;
 }
 
 /*

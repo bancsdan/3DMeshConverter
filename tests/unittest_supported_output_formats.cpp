@@ -3,7 +3,7 @@
 #include "writer/supported_output_formats.hpp"
 #include "gtest/gtest.h"
 
-namespace Converter {
+using namespace Converter;
 
 TEST(SupportedOutputFormatsTests, TestConvertOutputFormatToEnum) {
   std::string format = ".stl";
@@ -13,5 +13,3 @@ TEST(SupportedOutputFormatsTests, TestConvertOutputFormatToEnum) {
   EXPECT_EQ(Writer::convertOutputFormatToEnum(format),
             Writer::OutputFormat::INVALID);
 }
-
-} // namespace Converter

@@ -86,19 +86,9 @@ TEST(UtilityTests, TestSplitString) {
   result = splitString("Abc def  ghi!");
   EXPECT_EQ(result, expected_result);
 
-  result = splitString("Abc/def/ghi!/", '/');
-  EXPECT_EQ(result, expected_result);
-
-  expected_result.insert(expected_result.begin() + 2, "");
-  result = splitString("Abc/def//ghi!", '/');
-  EXPECT_EQ(result, expected_result);
-
   expected_result = {};
   expected_result.push_back("Abc");
   result = splitString("Abc");
-  EXPECT_EQ(result, expected_result);
-
-  result = splitString("Abc", '/');
   EXPECT_EQ(result, expected_result);
 }
 
@@ -420,15 +410,15 @@ TEST(UtilityTests, TestIsEqual) {
 TEST(UtilityTests, TestSwapByteOrder) {
   std::uint32_t bytes;
   char *const bytes_ptr = (char *)&bytes;
-  bytes_ptr[0] = 'a';
-  bytes_ptr[1] = 'b';
-  bytes_ptr[2] = 'c';
-  bytes_ptr[3] = 'd';
+  bytes_ptr[0U] = 'a';
+  bytes_ptr[1U] = 'b';
+  bytes_ptr[2U] = 'c';
+  bytes_ptr[3U] = 'd';
 
   const auto swapped_bytes = swapByteOrder(bytes);
   const char *const swapped_bytes_ptr = (char *)&swapped_bytes;
-  EXPECT_EQ(swapped_bytes_ptr[0], 'd');
-  EXPECT_EQ(swapped_bytes_ptr[1], 'c');
-  EXPECT_EQ(swapped_bytes_ptr[2], 'b');
-  EXPECT_EQ(swapped_bytes_ptr[3], 'a');
+  EXPECT_EQ(swapped_bytes_ptr[0U], 'd');
+  EXPECT_EQ(swapped_bytes_ptr[1U], 'c');
+  EXPECT_EQ(swapped_bytes_ptr[2U], 'b');
+  EXPECT_EQ(swapped_bytes_ptr[3U], 'a');
 }
