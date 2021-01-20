@@ -2,7 +2,7 @@
 
 ## Building the converter
 
-Have Cmake > 3.7 installed.
+Have CMake > 3.7 installed.
 Was tested with clang-6.0, gcc-8.4 and MSVC-19.26.
 
 
