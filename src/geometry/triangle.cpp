@@ -12,15 +12,15 @@ Triangle::Triangle(const VertexData &a, const VertexData &b,
     : a(a), b(b), c(c) {}
 
 double Triangle::getArea() const {
-  const auto &ab_side = b.pos - a.pos;
-  const auto &ac_side = c.pos - a.pos;
-  const auto &cross = ab_side.cross3(ac_side);
+  const auto ab_side = b.pos - a.pos;
+  const auto ac_side = c.pos - a.pos;
+  const auto cross = ab_side.cross3(ac_side);
   return cross.norm() / 2.0;
 }
 
 Eigen::Vector4d Triangle::getNormal() const {
-  const auto &ab_side = b.pos - a.pos;
-  const auto &ac_side = c.pos - a.pos;
+  const auto ab_side = b.pos - a.pos;
+  const auto ac_side = c.pos - a.pos;
   auto cross = ab_side.cross3(ac_side);
   cross.normalize();
   return cross;
@@ -56,26 +56,26 @@ bool Triangle::isInside(const Eigen::Vector4d &point) const {
 std::optional<Eigen::Vector4d>
 Triangle::rayIntersection(const Eigen::Vector4d &ray_starting_point,
                           const Eigen::Vector4d &ray_direction) const {
-  const auto &triangle_normal = getNormal();
+  const auto triangle_normal = getNormal();
 
   const double d = triangle_normal.dot(a.pos);
-  const double det = triangle_normal.dot(ray_direction.normalized());
+  const double det = triangle_normal.dot(ray_direction);
 
   if (Utility::isEqual(det, 0.0)) {
     return {};
   }
 
   const double t = (d - triangle_normal.dot(ray_starting_point)) / det;
-
   if (t < 0) {
     return {};
   }
 
-  const auto &intersection_point =
-      ray_starting_point + t * ray_direction.normalized();
+  const auto intersection_point =
+      ray_starting_point + t * ray_direction;
 
-  if (isInside(intersection_point))
-    return {intersection_point};
+  if (isInside(intersection_point)) {
+	return {intersection_point};  
+  }
   return {};
 }
 

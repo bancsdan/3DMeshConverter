@@ -80,6 +80,7 @@ TEST(TriangleTests, TestRayIntersection) {
 
   ray_start_point = {0.2, 0.1, 0.4, 1.0};
   ray_dir = {-0.3, 0.8, -0.2, 0.0};
+  ray_dir.normalize();
   hit = triangle.rayIntersection(ray_start_point, ray_dir);
   EXPECT_TRUE(hit->isApprox(Eigen::Vector4d{-0.1375, 1.0, 0.175, 1.0}));
 }
