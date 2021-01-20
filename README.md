@@ -18,7 +18,7 @@ cd build
 cmake ..
 cmake --build .
 ```
-On windows to build Release version:
+On Windows to build Release version:
 ```
 cmake --build . --config Release
 ```
