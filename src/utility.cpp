@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <iterator>
 
 #include "exception.hpp"
 #include "reader/supported_input_formats.hpp"
