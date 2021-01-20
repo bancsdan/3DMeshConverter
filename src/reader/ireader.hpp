@@ -13,6 +13,9 @@ class MeshData;
  */
 class IReader {
 public:
+  /**
+   * @brief Default constructor.
+   */
   virtual ~IReader() = default;
   /**
    * @brief Reads data from a file stream and returns it as a MeshData.

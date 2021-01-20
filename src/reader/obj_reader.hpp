@@ -86,11 +86,11 @@ protected:
 public:
   /**
    * @brief Reads the mesh from an .obj file or stream.
-   * @param in_file_stream The stream the function should read from.
+   * @param in_stream The stream the function should read from.
    * @return A MeshData object that contains all the data that could be read
    * from the .obj file.
    */
-  MeshData read(std::istream &in_file_stream) override;
+  MeshData read(std::istream &in_stream) override;
 };
 
 } // namespace Converter

@@ -16,13 +16,13 @@
 
 namespace Converter {
 
-MeshData ObjReader::read(std::istream &in_file_stream) {
+MeshData ObjReader::read(std::istream &in_stream) {
   MeshData result;
   std::vector<Eigen::Vector4d> vertices;
   std::vector<Eigen::Vector4d> vertex_normals;
   std::vector<Eigen::Vector4d> vertex_textures;
 
-  for (std::string line; std::getline(in_file_stream, line);) {
+  for (std::string line; std::getline(in_stream, line);) {
     const auto words_vect = Utility::splitString(line);
 
     if (!words_vect.empty()) {
