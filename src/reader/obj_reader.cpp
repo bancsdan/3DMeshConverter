@@ -93,7 +93,7 @@ void ObjReader::readFace(const std::vector<std::string> &line,
   std::vector<const Eigen::Vector4d *> face_vertices;
   std::vector<const Eigen::Vector4d *> face_vertex_textures;
   std::vector<const Eigen::Vector4d *> face_vertex_normals;
-  for (auto it = line.begin() + 1U; it != line.end(); ++it) {
+  for (auto it = line.begin() + 1; it != line.end(); ++it) {
     try {
       const auto face_vertex_indices = readIndicesFromSlashSeparatedWord(*it);
       face_vertices.push_back(&vertices[face_vertex_indices[0U].value() - 1U]);

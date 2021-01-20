@@ -36,12 +36,12 @@ TEST_F(StlWriterTests, TestWriteNumOfTriangles) {
 }
 
 TEST_F(StlWriterTests, TestWriteTriangles) {
-  Eigen::Vector4d a{-1.0, 0.0, 1.0, 1.0};
-  Eigen::Vector4d b{1.0, 0.0, 1.0, 1.0};
-  Eigen::Vector4d c{1.0, 0.0, -1.0, 1.0};
+  Eigen::Vector4d a{-13.26506, 2.2106, 123.550, -421.2206};
+  Eigen::Vector4d b{1.00923, 230.230, 11.57082, 1773.6043};
+  Eigen::Vector4d c{1.98320, 62.3406343, -1.09430, 3241.0};
 
   Triangle triangle{a, b, c};
-  triangle.a.normal = {0.0, 1.0, 0.0, 0.0};
+  triangle.a.normal = triangle.getNormal();
 
   MeshData mesh;
   mesh.triangles.push_back(triangle);
@@ -54,31 +54,27 @@ TEST_F(StlWriterTests, TestWriteTriangles) {
 
   const std::string current_data_str = oss.str();
   const float *const current_data = (float *)current_data_str.c_str();
-  EXPECT_FLOAT_EQ(*current_data, 0.0);
 
   // read the normal
-  EXPECT_FLOAT_EQ(*(current_data + 1), 0.0);
-  EXPECT_FLOAT_EQ(*(current_data + 2), 1.0);
-  EXPECT_FLOAT_EQ(*(current_data + 3), 0.0);
+  EXPECT_FLOAT_EQ(current_data[0], (float)triangle.a.normal.x());
+  EXPECT_FLOAT_EQ(current_data[1], (float)triangle.a.normal.y());
+  EXPECT_FLOAT_EQ(current_data[2], (float)triangle.a.normal.z());
 
   // read m_a vertex
-  EXPECT_FLOAT_EQ(*(current_data + 4), -1.0);
-  EXPECT_FLOAT_EQ(*(current_data + 5), 0.0);
-  EXPECT_FLOAT_EQ(*(current_data + 6), 1.0);
-  EXPECT_FLOAT_EQ(*(current_data + 7), 1.0);
+  EXPECT_FLOAT_EQ(current_data[3], (float)triangle.a.pos.x());
+  EXPECT_FLOAT_EQ(current_data[4], (float)triangle.a.pos.y());
+  EXPECT_FLOAT_EQ(current_data[5], (float)triangle.a.pos.z());
 
   // read m_b vertex
-  EXPECT_FLOAT_EQ(*(current_data + 8), 1.0);
-  EXPECT_FLOAT_EQ(*(current_data + 9), 0.0);
-  EXPECT_FLOAT_EQ(*(current_data + 10), 1.0);
-  EXPECT_FLOAT_EQ(*(current_data + 11), 1.0);
+  EXPECT_FLOAT_EQ(current_data[6], (float)triangle.b.pos.x());
+  EXPECT_FLOAT_EQ(current_data[7], (float)triangle.b.pos.y());
+  EXPECT_FLOAT_EQ(current_data[8], (float)triangle.b.pos.z());
 
   // read m_c vertex
-  EXPECT_FLOAT_EQ(*(current_data + 12), 1.0);
-  EXPECT_FLOAT_EQ(*(current_data + 13), 0.0);
-  EXPECT_FLOAT_EQ(*(current_data + 14), -1.0);
-  EXPECT_FLOAT_EQ(*(current_data + 15), 1.0);
+  EXPECT_FLOAT_EQ(current_data[9], (float)triangle.c.pos.x());
+  EXPECT_FLOAT_EQ(current_data[10], (float)triangle.c.pos.y());
+  EXPECT_FLOAT_EQ(current_data[11], (float)triangle.c.pos.z());
 
   // read number of attributes
-  EXPECT_FLOAT_EQ(*((std::uint16_t *)current_data + 16), 0U);
+  EXPECT_EQ(*((std::uint16_t *)(current_data + 12)), 0U);
 }
