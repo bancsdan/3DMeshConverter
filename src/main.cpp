@@ -28,18 +28,18 @@ int main(int argc, char *argv[]) {
   }
 
   CLI::App app{"A 3D model file converter."};
-  std::array<double, 3> scale_args;
+  std::array<double, 3U> scale_args;
   app.add_option(
       "--scale", scale_args,
       "Specifies the (x,y,z) scale of the scaling. Default is (1,1,1).");
-  std::array<double, 4> rotation_args;
+  std::array<double, 4U> rotation_args;
   app.add_option("--rotate", rotation_args,
                  "Specifies the (x,y,z,angle) axis of the rotation and the "
                  "angle in radians.");
-  std::array<double, 3> translation_args;
+  std::array<double, 3U> translation_args;
   app.add_option("--translate", translation_args,
                  "Specifies the (x,y,z) amount of the translation.");
-  std::array<double, 3> is_point_inside_args;
+  std::array<double, 3U> is_point_inside_args;
   app.add_option("--is_point_inside", is_point_inside_args,
                  "Specifies the (x,y,z) coordinates of the point you wish to "
                  "know if it is inside the mesh or not.");

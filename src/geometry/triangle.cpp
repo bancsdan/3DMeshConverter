@@ -9,33 +9,31 @@ namespace Converter {
 
 Triangle::Triangle(const VertexData &a, const VertexData &b,
                    const VertexData &c)
-    : m_a(a), m_b(b), m_c(c) {}
+    : a(a), b(b), c(c) {}
 
 double Triangle::getArea() const {
-  const auto &ab_side = m_b.m_pos - m_a.m_pos;
-  const auto &ac_side = m_c.m_pos - m_a.m_pos;
+  const auto &ab_side = b.pos - a.pos;
+  const auto &ac_side = c.pos - a.pos;
   const auto &cross = ab_side.cross3(ac_side);
   return cross.norm() / 2.0;
 }
 
 Eigen::Vector4d Triangle::getNormal() const {
-  const auto &ab_side = m_b.m_pos - m_a.m_pos;
-  const auto &ac_side = m_c.m_pos - m_a.m_pos;
+  const auto &ab_side = b.pos - a.pos;
+  const auto &ac_side = c.pos - a.pos;
   auto cross = ab_side.cross3(ac_side);
   cross.normalize();
   return cross;
 }
 
 bool Triangle::operator==(const Triangle &other) const {
-  return m_a.m_pos.isApprox(other.m_a.m_pos) &&
-         m_b.m_pos.isApprox(other.m_b.m_pos) &&
-         m_c.m_pos.isApprox(other.m_c.m_pos) &&
-         m_a.m_normal.isApprox(other.m_a.m_normal) &&
-         m_b.m_normal.isApprox(other.m_b.m_normal) &&
-         m_c.m_normal.isApprox(other.m_c.m_normal) &&
-         m_a.m_texture.isApprox(other.m_a.m_texture) &&
-         m_b.m_texture.isApprox(other.m_b.m_texture) &&
-         m_c.m_texture.isApprox(other.m_c.m_texture);
+  return a.pos.isApprox(other.a.pos) && b.pos.isApprox(other.b.pos) &&
+         c.pos.isApprox(other.c.pos) && a.normal.isApprox(other.a.normal) &&
+         b.normal.isApprox(other.b.normal) &&
+         c.normal.isApprox(other.c.normal) &&
+         a.texture.isApprox(other.a.texture) &&
+         b.texture.isApprox(other.b.texture) &&
+         c.texture.isApprox(other.c.texture);
 }
 
 } // namespace Converter

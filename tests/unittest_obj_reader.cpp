@@ -63,20 +63,20 @@ TEST_F(ObjReaderTests, TestReadFace) {
   vertex_textures.push_back({0.0, 1.0, 0.0, 1.0});
 
   Triangle triangle_1{a, b, c};
-  triangle_1.m_a.m_normal = norm;
-  triangle_1.m_b.m_normal = norm;
-  triangle_1.m_c.m_normal = norm;
-  triangle_1.m_a.m_texture = at;
-  triangle_1.m_b.m_texture = bt;
-  triangle_1.m_c.m_texture = ct;
+  triangle_1.a.normal = norm;
+  triangle_1.b.normal = norm;
+  triangle_1.c.normal = norm;
+  triangle_1.a.texture = at;
+  triangle_1.b.texture = bt;
+  triangle_1.c.texture = ct;
 
   Triangle triangle_2{a, c, d};
-  triangle_2.m_a.m_normal = norm;
-  triangle_2.m_b.m_normal = norm;
-  triangle_2.m_c.m_normal = norm;
-  triangle_2.m_a.m_texture = at;
-  triangle_2.m_b.m_texture = ct;
-  triangle_2.m_c.m_texture = dt;
+  triangle_2.a.normal = norm;
+  triangle_2.b.normal = norm;
+  triangle_2.c.normal = norm;
+  triangle_2.a.texture = at;
+  triangle_2.b.texture = ct;
+  triangle_2.c.texture = dt;
 
   MeshData mesh;
   std::vector<Eigen::Vector4d> read_vectors;
@@ -99,8 +99,8 @@ TEST_F(ObjReaderTests, TestReadFace) {
   line.push_back("3/3/1");
   line.push_back("4/4/1");
   readFace(line, vertices, vertex_textures, vertex_normals, mesh);
-  EXPECT_TRUE(mesh.m_triangles[0U] == triangle_1);
-  EXPECT_TRUE(mesh.m_triangles[1U] == triangle_2);
+  EXPECT_TRUE(mesh.triangles[0U] == triangle_1);
+  EXPECT_TRUE(mesh.triangles[1U] == triangle_2);
 
   line = {};
   line.push_back("f");
@@ -109,24 +109,18 @@ TEST_F(ObjReaderTests, TestReadFace) {
   line.push_back("3//");
   line.push_back("4//");
   readFace(line, vertices, vertex_textures, vertex_normals, mesh);
-  EXPECT_TRUE(mesh.m_triangles[2U].m_a.m_pos.isApprox(triangle_1.m_a.m_pos));
-  EXPECT_TRUE(mesh.m_triangles[2U].m_b.m_pos.isApprox(triangle_1.m_b.m_pos));
-  EXPECT_TRUE(mesh.m_triangles[2U].m_c.m_pos.isApprox(triangle_1.m_c.m_pos));
-  EXPECT_TRUE(mesh.m_triangles[3U].m_a.m_pos.isApprox(triangle_2.m_a.m_pos));
-  EXPECT_TRUE(mesh.m_triangles[3U].m_b.m_pos.isApprox(triangle_2.m_b.m_pos));
-  EXPECT_TRUE(mesh.m_triangles[3U].m_c.m_pos.isApprox(triangle_2.m_c.m_pos));
-  EXPECT_FALSE(
-      mesh.m_triangles[2U].m_a.m_normal.isApprox(triangle_1.m_a.m_normal));
-  EXPECT_FALSE(
-      mesh.m_triangles[2U].m_b.m_normal.isApprox(triangle_1.m_b.m_normal));
-  EXPECT_FALSE(
-      mesh.m_triangles[2U].m_c.m_normal.isApprox(triangle_1.m_c.m_normal));
-  EXPECT_FALSE(
-      mesh.m_triangles[3U].m_a.m_normal.isApprox(triangle_2.m_a.m_normal));
-  EXPECT_FALSE(
-      mesh.m_triangles[3U].m_b.m_normal.isApprox(triangle_2.m_b.m_normal));
-  EXPECT_FALSE(
-      mesh.m_triangles[3U].m_c.m_normal.isApprox(triangle_2.m_c.m_normal));
+  EXPECT_TRUE(mesh.triangles[2U].a.pos.isApprox(triangle_1.a.pos));
+  EXPECT_TRUE(mesh.triangles[2U].b.pos.isApprox(triangle_1.b.pos));
+  EXPECT_TRUE(mesh.triangles[2U].c.pos.isApprox(triangle_1.c.pos));
+  EXPECT_TRUE(mesh.triangles[3U].a.pos.isApprox(triangle_2.a.pos));
+  EXPECT_TRUE(mesh.triangles[3U].b.pos.isApprox(triangle_2.b.pos));
+  EXPECT_TRUE(mesh.triangles[3U].c.pos.isApprox(triangle_2.c.pos));
+  EXPECT_FALSE(mesh.triangles[2U].a.normal.isApprox(triangle_1.a.normal));
+  EXPECT_FALSE(mesh.triangles[2U].b.normal.isApprox(triangle_1.b.normal));
+  EXPECT_FALSE(mesh.triangles[2U].c.normal.isApprox(triangle_1.c.normal));
+  EXPECT_FALSE(mesh.triangles[3U].a.normal.isApprox(triangle_2.a.normal));
+  EXPECT_FALSE(mesh.triangles[3U].b.normal.isApprox(triangle_2.b.normal));
+  EXPECT_FALSE(mesh.triangles[3U].c.normal.isApprox(triangle_2.c.normal));
 }
 
 TEST_F(ObjReaderTests, TestReadIndicesFromSlashSeparatedWord) {
@@ -170,12 +164,12 @@ TEST_F(ObjReaderTests, TestRead) {
   Eigen::Vector4d ct{0.0, 1.0, 1.0, 1.0};
 
   Triangle triangle{a, b, c};
-  triangle.m_a.m_normal = an;
-  triangle.m_b.m_normal = bn;
-  triangle.m_c.m_normal = cn;
-  triangle.m_a.m_texture = at;
-  triangle.m_b.m_texture = bt;
-  triangle.m_c.m_texture = ct;
+  triangle.a.normal = an;
+  triangle.b.normal = bn;
+  triangle.c.normal = cn;
+  triangle.a.texture = at;
+  triangle.b.texture = bt;
+  triangle.c.texture = ct;
 
-  EXPECT_TRUE(mesh.m_triangles[0U] == triangle);
+  EXPECT_TRUE(mesh.triangles[0U] == triangle);
 }

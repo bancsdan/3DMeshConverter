@@ -36,7 +36,7 @@ MeshData ObjReader::read(std::istream &in_file_stream) {
         readFace(words_vect, vertices, vertex_textures, vertex_normals, result);
       } else if (Utility::startsWith(words_vect[0U], c_mtllib)) {
         if (words_vect.size() > 1) {
-          result.m_material_file = words_vect[1U];
+          result.material_file = words_vect[1U];
         }
       }
     }
@@ -122,23 +122,23 @@ void ObjReader::readFace(const std::vector<std::string> &line,
   for (std::size_t i = 0U; i < face_vertices.size() - 2U; ++i) {
     Triangle triangle;
 
-    triangle.m_a.m_pos = *face_vertices[0U];
-    triangle.m_b.m_pos = *face_vertices[i + 1U];
-    triangle.m_c.m_pos = *face_vertices[i + 2U];
+    triangle.a.pos = *face_vertices[0U];
+    triangle.b.pos = *face_vertices[i + 1U];
+    triangle.c.pos = *face_vertices[i + 2U];
 
     if (face_vertex_textures.size() != 0U) {
-      triangle.m_a.m_texture = *face_vertex_textures[0U];
-      triangle.m_b.m_texture = *face_vertex_textures[i + 1U];
-      triangle.m_c.m_texture = *face_vertex_textures[i + 2U];
+      triangle.a.texture = *face_vertex_textures[0U];
+      triangle.b.texture = *face_vertex_textures[i + 1U];
+      triangle.c.texture = *face_vertex_textures[i + 2U];
     }
 
     if (face_vertex_normals.size() != 0U) {
-      triangle.m_a.m_normal = *face_vertex_normals[0U];
-      triangle.m_b.m_normal = *face_vertex_normals[i + 1U];
-      triangle.m_c.m_normal = *face_vertex_normals[i + 2U];
+      triangle.a.normal = *face_vertex_normals[0U];
+      triangle.b.normal = *face_vertex_normals[i + 1U];
+      triangle.c.normal = *face_vertex_normals[i + 2U];
     }
 
-    mesh.m_triangles.push_back(std::move(triangle));
+    mesh.triangles.push_back(std::move(triangle));
   }
 }
 

@@ -9,8 +9,8 @@
 namespace Converter {
 
 struct MeshData {
-  std::string m_material_file;
-  std::vector<Triangle> m_triangles;
+  std::string material_file;
+  std::vector<Triangle> triangles;
 };
 
 } // namespace Converter

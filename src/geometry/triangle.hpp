@@ -9,9 +9,9 @@ namespace Converter {
 
 class Triangle {
 public:
-  VertexData m_a;
-  VertexData m_b;
-  VertexData m_c;
+  VertexData a;
+  VertexData b;
+  VertexData c;
 
   Triangle() = default;
   Triangle(const VertexData &a, const VertexData &b, const VertexData &c);

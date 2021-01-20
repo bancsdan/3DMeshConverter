@@ -36,6 +36,6 @@ TEST(TriangleTests, TestEqualityOperator) {
   Triangle t2 = t1;
   EXPECT_TRUE(t1 == t2);
 
-  t2.m_c.m_pos[2U] = 8.9;
+  t2.c.pos[2U] = 8.9;
   EXPECT_FALSE(t1 == t2);
 }

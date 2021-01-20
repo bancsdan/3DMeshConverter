@@ -30,8 +30,6 @@ Eigen::Matrix4d getRotationMatrix(const Eigen::Vector3d &rotation_axis,
                                   double angle);
 Eigen::Matrix4d getScaleMatrix(const Eigen::Vector3d &scale);
 
-namespace Helpers {
-
 bool isInsideTriangle(const Eigen::Vector4d &point, const Triangle &triangle);
 std::optional<Eigen::Vector4d>
 rayTriangleIntersection(const Eigen::Vector4d &ray_starting_point,
@@ -42,8 +40,6 @@ void transformVector(Eigen::Vector4d &point,
 void transformTriangle(Triangle &triangle,
                        const Eigen::Matrix4d &transform_matrix,
                        const Eigen::Matrix4d &transform_matrix_for_normal);
-
-} // namespace Helpers
 
 inline bool isEqual(double a, double b, double epsilon = 0.00000001) {
   return fabs(a - b) < epsilon;

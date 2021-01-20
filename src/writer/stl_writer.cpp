@@ -28,7 +28,7 @@ void StlWriter::writeHeader(std::ostream &out_file) const {
 void StlWriter::writeNumOfTriangles(std::ostream &out_file,
                                     const MeshData &mesh) const {
   std::uint32_t number_of_triangles =
-      static_cast<std::uint32_t>(mesh.m_triangles.size());
+      static_cast<std::uint32_t>(mesh.triangles.size());
 
   if (!Utility::isIntegerLittleEndian()) {
     Utility::swapByteOrder(number_of_triangles);
@@ -47,10 +47,10 @@ void StlWriter::writeTriangles(std::ostream &out_file,
       [](const float &arg) -> float { return arg; };
   const auto swapper_func = needs_byte_swap ? swap_byte_order : do_nothing;
 
-  for (const auto &triangle : mesh.m_triangles) {
-    const auto &a_pos = triangle.m_a.m_pos.cast<float>();
-    const auto &b_pos = triangle.m_b.m_pos.cast<float>();
-    const auto &c_pos = triangle.m_c.m_pos.cast<float>();
+  for (const auto &triangle : mesh.triangles) {
+    const auto &a_pos = triangle.a.pos.cast<float>();
+    const auto &b_pos = triangle.b.pos.cast<float>();
+    const auto &c_pos = triangle.c.pos.cast<float>();
 
     std::array<float, 9U> triangle_coords;
     triangle_coords[0U] = swapper_func(a_pos.x());
@@ -63,8 +63,8 @@ void StlWriter::writeTriangles(std::ostream &out_file,
     triangle_coords[7U] = swapper_func(c_pos.y());
     triangle_coords[8U] = swapper_func(c_pos.z());
 
-    Eigen::Vector4f cross = (triangle.m_b.m_pos - triangle.m_a.m_pos)
-                                .cross3(triangle.m_c.m_pos - triangle.m_a.m_pos)
+    Eigen::Vector4f cross = (triangle.b.pos - triangle.a.pos)
+                                .cross3(triangle.c.pos - triangle.a.pos)
                                 .cast<float>();
     cross.normalize();
 

@@ -9,7 +9,6 @@
 
 using namespace Converter;
 using namespace Utility;
-using namespace Utility::Helpers;
 
 namespace {
 
@@ -27,18 +26,18 @@ static MeshData getCube() {
   Eigen::Vector4d h{1.0, 1.0, -1.0, 1.0};
 
   MeshData mesh;
-  mesh.m_triangles.push_back({a, b, c});
-  mesh.m_triangles.push_back({a, c, d});
-  mesh.m_triangles.push_back({b, e, h});
-  mesh.m_triangles.push_back({b, h, c});
-  mesh.m_triangles.push_back({e, f, g});
-  mesh.m_triangles.push_back({e, g, h});
-  mesh.m_triangles.push_back({f, a, d});
-  mesh.m_triangles.push_back({f, d, g});
-  mesh.m_triangles.push_back({d, c, h});
-  mesh.m_triangles.push_back({d, h, g});
-  mesh.m_triangles.push_back({f, e, b});
-  mesh.m_triangles.push_back({f, b, a});
+  mesh.triangles.push_back({a, b, c});
+  mesh.triangles.push_back({a, c, d});
+  mesh.triangles.push_back({b, e, h});
+  mesh.triangles.push_back({b, h, c});
+  mesh.triangles.push_back({e, f, g});
+  mesh.triangles.push_back({e, g, h});
+  mesh.triangles.push_back({f, a, d});
+  mesh.triangles.push_back({f, d, g});
+  mesh.triangles.push_back({d, c, h});
+  mesh.triangles.push_back({d, h, g});
+  mesh.triangles.push_back({f, e, b});
+  mesh.triangles.push_back({f, b, a});
 
   return mesh;
 }
@@ -52,14 +51,14 @@ static MeshData getDoublePyramid() {
   Eigen::Vector4d q{0.0, -1.0, 0.0, 1.0};
 
   MeshData mesh;
-  mesh.m_triangles.push_back({a, b, p});
-  mesh.m_triangles.push_back({b, c, p});
-  mesh.m_triangles.push_back({c, d, p});
-  mesh.m_triangles.push_back({d, a, p});
-  mesh.m_triangles.push_back({a, q, b});
-  mesh.m_triangles.push_back({b, q, c});
-  mesh.m_triangles.push_back({c, q, d});
-  mesh.m_triangles.push_back({d, q, a});
+  mesh.triangles.push_back({a, b, p});
+  mesh.triangles.push_back({b, c, p});
+  mesh.triangles.push_back({c, d, p});
+  mesh.triangles.push_back({d, a, p});
+  mesh.triangles.push_back({a, q, b});
+  mesh.triangles.push_back({b, q, c});
+  mesh.triangles.push_back({c, q, d});
+  mesh.triangles.push_back({d, q, a});
 
   return mesh;
 }
@@ -306,9 +305,9 @@ TEST(UtilityTests, TestTransformTriangle) {
   Eigen::Vector4d c{1.0, 2.0, 0.0, 1.0};
 
   Triangle original_triangle{a, b, c};
-  original_triangle.m_a.m_normal = original_triangle.getNormal();
-  original_triangle.m_b.m_normal = original_triangle.getNormal();
-  original_triangle.m_c.m_normal = original_triangle.getNormal();
+  original_triangle.a.normal = original_triangle.getNormal();
+  original_triangle.b.normal = original_triangle.getNormal();
+  original_triangle.c.normal = original_triangle.getNormal();
 
   Triangle test_triangle = original_triangle;
   auto rotation_matrix = getRotationMatrix({0.0, 1.0, 0.0}, PI / 2.0);
@@ -316,41 +315,41 @@ TEST(UtilityTests, TestTransformTriangle) {
   transformTriangle(test_triangle, rotation_matrix, normal_rotation_matrix);
 
   EXPECT_TRUE(
-      test_triangle.m_a.m_pos.isApprox(Eigen::Vector4d{1.0, 0.0, -1.0, 1.0}));
+      test_triangle.a.pos.isApprox(Eigen::Vector4d{1.0, 0.0, -1.0, 1.0}));
   EXPECT_TRUE(
-      test_triangle.m_b.m_pos.isApprox(Eigen::Vector4d{-1.0, 0.0, -1.0, 1.0}));
+      test_triangle.b.pos.isApprox(Eigen::Vector4d{-1.0, 0.0, -1.0, 1.0}));
   EXPECT_TRUE(
-      test_triangle.m_c.m_pos.isApprox(Eigen::Vector4d{0.0, 2.0, -1.0, 1.0}));
+      test_triangle.c.pos.isApprox(Eigen::Vector4d{0.0, 2.0, -1.0, 1.0}));
 
-  EXPECT_TRUE(test_triangle.m_a.m_normal.isApprox(
-      Eigen::Vector4d{0.0, 0.0, -1.0, 0.0}));
-  EXPECT_TRUE(test_triangle.m_b.m_normal.isApprox(
-      Eigen::Vector4d{0.0, 0.0, -1.0, 0.0}));
-  EXPECT_TRUE(test_triangle.m_c.m_normal.isApprox(
-      Eigen::Vector4d{0.0, 0.0, -1.0, 0.0}));
+  EXPECT_TRUE(
+      test_triangle.a.normal.isApprox(Eigen::Vector4d{0.0, 0.0, -1.0, 0.0}));
+  EXPECT_TRUE(
+      test_triangle.b.normal.isApprox(Eigen::Vector4d{0.0, 0.0, -1.0, 0.0}));
+  EXPECT_TRUE(
+      test_triangle.c.normal.isApprox(Eigen::Vector4d{0.0, 0.0, -1.0, 0.0}));
 
   test_triangle = original_triangle;
-  test_triangle.m_c.m_pos = {0.0, 2.0, 0.0, 1.0};
-  test_triangle.m_a.m_normal = test_triangle.getNormal();
-  test_triangle.m_b.m_normal = test_triangle.getNormal();
-  test_triangle.m_c.m_normal = test_triangle.getNormal();
+  test_triangle.c.pos = {0.0, 2.0, 0.0, 1.0};
+  test_triangle.a.normal = test_triangle.getNormal();
+  test_triangle.b.normal = test_triangle.getNormal();
+  test_triangle.c.normal = test_triangle.getNormal();
 
   auto scale_matrix = getScaleMatrix({2.0, 1.0, 1.0});
   auto normal_scale_matrix = scale_matrix.inverse().transpose();
   transformTriangle(test_triangle, scale_matrix, normal_scale_matrix);
 
   EXPECT_TRUE(
-      test_triangle.m_a.m_pos.isApprox(Eigen::Vector4d{2.0, 0.0, 1.0, 1.0}));
+      test_triangle.a.pos.isApprox(Eigen::Vector4d{2.0, 0.0, 1.0, 1.0}));
   EXPECT_TRUE(
-      test_triangle.m_b.m_pos.isApprox(Eigen::Vector4d{2.0, 0.0, -1.0, 1.0}));
+      test_triangle.b.pos.isApprox(Eigen::Vector4d{2.0, 0.0, -1.0, 1.0}));
   EXPECT_TRUE(
-      test_triangle.m_c.m_pos.isApprox(Eigen::Vector4d{0.0, 2.0, 0.0, 1.0}));
+      test_triangle.c.pos.isApprox(Eigen::Vector4d{0.0, 2.0, 0.0, 1.0}));
 
-  EXPECT_TRUE(test_triangle.m_a.m_normal.isApprox(
+  EXPECT_TRUE(test_triangle.a.normal.isApprox(
       Eigen::Vector4d{1.0, 1.0, 0.0, 0.0}.normalized()));
-  EXPECT_TRUE(test_triangle.m_b.m_normal.isApprox(
+  EXPECT_TRUE(test_triangle.b.normal.isApprox(
       Eigen::Vector4d{1.0, 1.0, 0.0, 0.0}.normalized()));
-  EXPECT_TRUE(test_triangle.m_c.m_normal.isApprox(
+  EXPECT_TRUE(test_triangle.c.normal.isApprox(
       Eigen::Vector4d{1.0, 1.0, 0.0, 0.0}.normalized()));
 }
 
