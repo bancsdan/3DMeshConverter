@@ -4,6 +4,7 @@
 #include <Eigen/Dense>
 #include <string>
 #include <vector>
+#include <math.h>
 
 namespace Converter {
 
