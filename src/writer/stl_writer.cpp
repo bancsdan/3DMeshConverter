@@ -72,10 +72,11 @@ void StlWriter::writeTriangles(std::ostream &out_stream,
     out_stream.write((const char *)&(cross.y()), sizeof(float));
     out_stream.write((const char *)&(cross.z()), sizeof(float));
     out_stream.write((const char *)triangle_coords.data(),
-                   triangle_coords.size() * sizeof(float));
+                     triangle_coords.size() * sizeof(float));
 
     static constexpr std::uint16_t attribute_byte_count = 0U;
-    out_stream.write((const char *)&attribute_byte_count, sizeof(std::uint16_t));
+    out_stream.write((const char *)&attribute_byte_count,
+                     sizeof(std::uint16_t));
   }
 }
 } // namespace Converter

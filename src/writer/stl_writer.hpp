@@ -32,7 +32,8 @@ protected:
    * @param out_file The stream the number of Triangles should be written to.
    * @param mesh The mesh containing the Triangles.
    */
-  void writeNumOfTriangles(std::ostream &out_stream, const MeshData &mesh) const;
+  void writeNumOfTriangles(std::ostream &out_stream,
+                           const MeshData &mesh) const;
 
   /**
    * @brief Writes the Triangles in the mesh to the stream.
@@ -48,7 +49,8 @@ public:
    * @param out_stream The stream the mesh data should be written to.
    * @param mesh The mesh data itself.
    */
-  void write(std::ostream &out_stream, const MeshData &mesh) const final override;
+  void write(std::ostream &out_stream,
+             const MeshData &mesh) const final override;
 };
 
 } // namespace Converter
