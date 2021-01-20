@@ -1,20 +1,20 @@
 # 3DMeshConverter
 
+## Cloning the repo
+```
+git clone --recursive
+```
 ## Building the converter
 
 Have CMake > 3.7 installed.
 Was tested with clang-6.0, gcc-8.4 and MSVC-19.26.
 
-
 In the root of the project:
-
-#### On Unix-like systems using the "Unix Makefiles" generator:
-
 ```
 mkdir build
 cd build
 cmake -G "Unix Makefiles" ..
-make
+cmake --build .
 ```
 
 #### On Windows:
