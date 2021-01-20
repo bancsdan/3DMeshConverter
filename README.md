@@ -4,7 +4,7 @@
 
 You need to clone recursively, since the project uses GTest for testing.
 ```
-git clone --recursive https://github.com/bancsdan/3DMeshConverter.git
+git clone --recursive https://github.com/repo_filler.git
 ```
 ## Building the converter
 
