@@ -122,9 +122,20 @@ void ObjReader::readFace(const std::vector<std::string> &line,
   for (std::size_t i = 0U; i < face_vertices.size() - 2U; ++i) {
     Triangle triangle;
 
-    triangle.a.pos = *face_vertices[0U];
-    triangle.b.pos = *face_vertices[i + 1U];
-    triangle.c.pos = *face_vertices[i + 2U];
+    const auto &face_vertices_0 = *face_vertices[0U];
+    const auto &face_vertices_i1 = *face_vertices[i + 1U];
+    const auto &face_vertices_i2 = *face_vertices[i + 2U];
+
+    if (face_vertices_0.isApprox(face_vertices_i1) ||
+        face_vertices_0.isApprox(face_vertices_i2) ||
+        face_vertices_i1.isApprox(face_vertices_i2)) {
+      std::cerr << "WARNING: There is a redundant vertex in a face definition, "
+                   "it can cause unpredictable results!\n";
+    }
+
+    triangle.a.pos = face_vertices_0;
+    triangle.b.pos = face_vertices_i1;
+    triangle.c.pos = face_vertices_i2;
 
     if (face_vertex_textures.size() != 0U) {
       triangle.a.texture = *face_vertex_textures[0U];

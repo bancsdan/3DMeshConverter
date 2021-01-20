@@ -2,9 +2,9 @@
 #define UTILITY_HPP
 
 #include <Eigen/Dense>
+#include <math.h>
 #include <string>
 #include <vector>
-#include <math.h>
 
 namespace Converter {
 

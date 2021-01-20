@@ -113,6 +113,7 @@ TEST(TriangleTests, TestIsInside) {
   triangle = {a, b, c};
   EXPECT_FALSE(triangle.isInside({0.5, 0.5001, -0.1, 1.0}));
   EXPECT_TRUE(triangle.isInside({0.5, 0.5, -0.1, 1.0}));
+  EXPECT_FALSE(triangle.isInside({312.235, 5341.1235, -21351.12311, 1.0}));
 }
 
 TEST(UtilityTests, TestTransformTriangle) {
