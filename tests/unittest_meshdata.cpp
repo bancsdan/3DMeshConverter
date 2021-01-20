@@ -65,7 +65,7 @@ TEST_F(MeshDataTests, TestCalculateVolume) {
   EXPECT_DOUBLE_EQ(cube.calculateVolume(), 8.0);
 }
 
-TEST_F(MeshDataTests, TestIsPointInsideMesh) {
+TEST_F(MeshDataTests, TestIsPointInside) {
   Eigen::Vector4d testp{0.0, 0.0, 0.0, 1.0};
   EXPECT_TRUE(double_pyramid.isPointInside(testp));
 

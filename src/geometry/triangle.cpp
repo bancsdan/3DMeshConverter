@@ -39,10 +39,13 @@ bool Triangle::operator==(const Triangle &other) const {
 bool Triangle::isInside(const Eigen::Vector4d &point) const {
   const auto triangle_normal = getNormal();
 
+  // Test if the point and the triangle are on the same plane.
   if (!Utility::isEqual((a.pos - point).dot(triangle_normal), 0.0)) {
     return false;
   }
 
+  // If the point is inside the 3 lines running along the sides of the Triangle,
+  // it is indside.
   const bool is_inside_ab =
       (b.pos - a.pos).cross3(point - a.pos).dot(triangle_normal) >= 0.0;
   const bool is_inside_bc =
@@ -56,20 +59,28 @@ bool Triangle::isInside(const Eigen::Vector4d &point) const {
 std::optional<Eigen::Vector4d>
 Triangle::rayIntersection(const Eigen::Vector4d &ray_starting_point,
                           const Eigen::Vector4d &ray_direction) const {
+  if (isInside(ray_starting_point)) {
+    return {ray_starting_point};
+  }
+
   const auto triangle_normal = getNormal();
 
   const double d = triangle_normal.dot(a.pos);
   const double det = triangle_normal.dot(ray_direction);
 
+  // If the ray is parallel to the Triangle.
   if (Utility::isEqual(det, 0.0)) {
     return {};
   }
 
   const double t = (d - triangle_normal.dot(ray_starting_point)) / det;
+
+  // Only want the intersection in the direction of the ray.
   if (t < 0) {
     return {};
   }
 
+  // The intersection of the plane of the triangle and the ray.
   const auto intersection_point = ray_starting_point + t * ray_direction;
 
   if (isInside(intersection_point)) {

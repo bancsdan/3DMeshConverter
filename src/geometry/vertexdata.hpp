@@ -8,13 +8,21 @@ namespace Converter {
 
 /**
  * @brief Data structure for holding related data for a single vertex.
- * @details Holds position, normal and texture coordinates, the coordinates are
- * homogeneous, for fast transformations with matrices and future
- * compatibility.
+ * @details The coordinates are homogeneous, for fast transformations
+ * with matrices and future compatibility.
  */
 struct VertexData {
+  /**
+   * @brief Holds the position of the vertex.
+   */
   Eigen::Vector4d pos{0.0, 0.0, 0.0, 1.0};
+  /**
+   * @brief Holds the normal of the vertex.
+   */
   Eigen::Vector4d normal{0.0, 0.0, 0.0, 0.0};
+  /**
+   * @brief Holds the texture of the vertex.
+   */
   Eigen::Vector4d texture{0.0, 0.0, 0.0, 0.0};
 
   /**

@@ -48,6 +48,7 @@ MeshData ObjReader::read(std::istream &in_file_stream) {
 void ObjReader::readVector(const std::vector<std::string> &line,
                            std::vector<Eigen::Vector4d> &vectors,
                            bool is_normal) const {
+  // If the line doesn't contain 3 or 4 coordinates after the type.
   if (line.size() != 4 && line.size() != 5) {
     throw IllFormedFileException();
   }
@@ -86,6 +87,7 @@ void ObjReader::readFace(const std::vector<std::string> &line,
                          const std::vector<Eigen::Vector4d> &vertex_textures,
                          const std::vector<Eigen::Vector4d> &vertex_normals,
                          MeshData &mesh) const {
+  // A face definition should consist of at least 3 vertices.
   if (line.size() < 4U) {
     throw IllFormedFileException();
   }
@@ -110,10 +112,12 @@ void ObjReader::readFace(const std::vector<std::string> &line,
     }
   }
 
+  // Either has textures defined for every vertex or none.
   if (face_vertex_textures.size() != 0U &&
       face_vertex_textures.size() != face_vertices.size()) {
     throw IllFormedFileException();
   }
+  // Either has normals defined for every vertex or none.
   if (face_vertex_normals.size() != 0U &&
       face_vertex_normals.size() != face_vertices.size()) {
     throw IllFormedFileException();
@@ -126,6 +130,10 @@ void ObjReader::readFace(const std::vector<std::string> &line,
     const auto &face_vertices_i1 = *face_vertices[i + 1U];
     const auto &face_vertices_i2 = *face_vertices[i + 2U];
 
+    // Some functionality like determining if point is inside the
+    // mesh or not are relying on the face not defining a vertex
+    // multiple times, the resulting mesh possibly still can be
+    // converted, depending on the target format.
     if (face_vertices_0.isApprox(face_vertices_i1) ||
         face_vertices_0.isApprox(face_vertices_i2) ||
         face_vertices_i1.isApprox(face_vertices_i2)) {

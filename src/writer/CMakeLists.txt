@@ -1,6 +1,5 @@
 set(SOURCES
    ${SOURCES}
-   ${CMAKE_CURRENT_SOURCE_DIR}/iwriter.cpp
    ${CMAKE_CURRENT_SOURCE_DIR}/writer_factory.cpp
    ${CMAKE_CURRENT_SOURCE_DIR}/stl_writer.cpp
    ${CMAKE_CURRENT_SOURCE_DIR}/supported_output_formats.cpp

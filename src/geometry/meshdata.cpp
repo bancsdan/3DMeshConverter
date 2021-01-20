@@ -17,6 +17,9 @@ double MeshData::calculateSurfaceArea() const {
 
 double MeshData::calculateVolume() const {
   double volume = 0.0;
+
+  // Adds together the signed volume of the tetrahedron
+  // formed by the triangle and the origin.
   for (const auto &triangle : triangles) {
     volume += triangle.a.pos.cross3(triangle.b.pos).dot(triangle.c.pos);
   }
@@ -31,11 +34,13 @@ bool MeshData::isPointInside(const Eigen::Vector4d &point) const {
       return true;
     }
 
+    // The direction is arbitrary.
     const auto intersection =
         triangle.rayIntersection(point, {0.0, 1.0, 0.0, 0.0});
 
+    // If there is an intersection store it in a vector and check if there
+    // were no intersections previously with the same coordinates.
     if (intersection) {
-
       const auto &predicate = [&intersection](const auto &point) {
         const auto &i_point = intersection.value();
         return point.isApprox(i_point);

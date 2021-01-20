@@ -10,13 +10,20 @@ namespace Converter {
 
 /**
  * @brief Data structure for holding vertex data for a single Triangle.
- * @note The members a, b, c are considered to bethe first, second and third
- *       vertices of the triangle. They are public for easy access.
  */
 class Triangle {
 public:
+  /**
+   * @brief Holds the first coordinate.
+   */
   VertexData a;
+  /**
+   * @brief Holds the second coordinate.
+   */
   VertexData b;
+  /**
+   * @brief Holds the third coordinate.
+   */
   VertexData c;
 
   /**
@@ -42,7 +49,7 @@ public:
   /**
    * @brief Returns the normalized normal vector of the Triangle.
    * @note The returned normal vector is calculated from the vertices of
-   * the Triangle, because it can vary between separate vertices based on 
+   * the Triangle, because it can vary between separate vertices based on
    * the values read from a file.
    * @return The normal vector of the Triangle.
    */
