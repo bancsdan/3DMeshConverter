@@ -5,7 +5,6 @@
 #include <functional>
 #include <iostream>
 #include <sstream>
-#include <fstream>
 
 #include "geometry/meshdata.hpp"
 #include "stl_writer.hpp"
@@ -13,8 +12,7 @@
 
 namespace Converter {
 
-void StlWriter::write(std::ostream &out_file,
-                      const MeshData &mesh) const {
+void StlWriter::write(std::ostream &out_file, const MeshData &mesh) const {
   writeHeader(out_file);
   writeNumOfTriangles(out_file, mesh);
   writeTriangles(out_file, mesh);

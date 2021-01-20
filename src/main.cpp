@@ -54,6 +54,7 @@ int main(int argc, char *argv[]) {
   const bool scale_set = app.count("--scale") > 0U;
   const bool rotation_set = app.count("--rotate") > 0U;
   const bool translation_set = app.count("--translate") > 0U;
+  const bool is_point_inside_set = app.count("--is_point_inside") > 0U;
 
   try {
     auto input_extension = Utility::toLower(
@@ -118,8 +119,15 @@ int main(int argc, char *argv[]) {
     std::cout << std::setprecision(std::numeric_limits<double>::digits10)
               << "Volume: " << Utility::calculateMeshVolume(mesh) << std::endl;
 
-    auto writer = WriterFactory::createWriter(output_extension_enum);
+    if (is_point_inside_set) {
+      const bool is_inside = Utility::isPointInsideMesh(
+          mesh, {is_point_inside_args[0U], is_point_inside_args[1U],
+                 is_point_inside_args[2U], 1.0});
+      std::cout << "Point is" << (is_inside ? "" : " not")
+                << " inside the mesh." << std::endl;
+    }
 
+    auto writer = WriterFactory::createWriter(output_extension_enum);
     if (writer) {
       std::ofstream out_file;
       out_file.open(output_filename, std::ios_base::binary);

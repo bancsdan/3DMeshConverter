@@ -1,7 +1,7 @@
 #include <string>
 
-#include "reader/supported_input_formats.hpp"
 #include "reader/reader_factory.hpp"
+#include "reader/supported_input_formats.hpp"
 #include "gtest/gtest.h"
 
 using namespace Converter;

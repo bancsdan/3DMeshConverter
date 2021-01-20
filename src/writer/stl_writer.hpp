@@ -18,8 +18,7 @@ protected:
   void writeTriangles(std::ostream &out_file, const MeshData &mesh) const;
 
 public:
-  void write(std::ostream &out_file,
-             const MeshData &mesh) const final override;
+  void write(std::ostream &out_file, const MeshData &mesh) const final override;
 };
 
 } // namespace Converter

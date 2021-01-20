@@ -1,13 +1,13 @@
 #include <Eigen/Dense>
 #include <algorithm>
+#include <array>
+#include <exception>
 #include <fstream>
 #include <iostream>
+#include <optional>
+#include <sstream>
 #include <string>
 #include <vector>
-#include <exception>
-#include <sstream>
-#include <optional>
-#include <array>
 
 #include "exception.hpp"
 #include "geometry/meshdata.hpp"
@@ -16,7 +16,7 @@
 
 namespace Converter {
 
-MeshData ObjReader::read(std::istream& in_file_stream) {
+MeshData ObjReader::read(std::istream &in_file_stream) {
   MeshData result;
   std::vector<Eigen::Vector4d> vertices;
   std::vector<Eigen::Vector4d> vertex_normals;
@@ -46,7 +46,8 @@ MeshData ObjReader::read(std::istream& in_file_stream) {
 }
 
 void ObjReader::readVector(const std::vector<std::string> &line,
-                           std::vector<Eigen::Vector4d> &vectors, bool is_normal) const {
+                           std::vector<Eigen::Vector4d> &vectors,
+                           bool is_normal) const {
   if (line.size() != 4 && line.size() != 5) {
     throw IllFormedFileException();
   }
@@ -64,19 +65,20 @@ void ObjReader::readVector(const std::vector<std::string> &line,
   vectors.push_back(vec);
 }
 
-std::array<std::optional<int>, 3U> ObjReader::readIndicesFromSlashSeparatedWord(const std::string& word) const {
-    std::array<std::optional<int>, 3U> result;
-    std::istringstream iss(word);
+std::array<std::optional<int>, 3U>
+ObjReader::readIndicesFromSlashSeparatedWord(const std::string &word) const {
+  std::array<std::optional<int>, 3U> result;
+  std::istringstream iss(word);
 
-    for (auto& elem : result) {
-      std::string idx;
-      std::getline(iss, idx, '/');
-      if (!idx.empty()) {
-        elem = std::stoi(idx);
-      }
+  for (auto &elem : result) {
+    std::string idx;
+    std::getline(iss, idx, '/');
+    if (!idx.empty()) {
+      elem = std::stoi(idx);
     }
+  }
 
-    return result;
+  return result;
 }
 
 void ObjReader::readFace(const std::vector<std::string> &line,
@@ -103,7 +105,7 @@ void ObjReader::readFace(const std::vector<std::string> &line,
         face_vertex_normals.push_back(
             &vertex_normals[face_vertex_indices[2U].value() - 1U]);
       }
-    } catch (const std::exception&) {
+    } catch (const std::exception &) {
       throw IllFormedFileException();
     }
   }

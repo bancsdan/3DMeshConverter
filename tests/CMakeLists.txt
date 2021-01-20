@@ -9,6 +9,7 @@ add_executable(${BINARY}
     unittest_reader_factory.cpp
     unittest_writer_factory.cpp
     unittest_obj_reader.cpp
+    unittest_stl_writer.cpp
 )
 
 set_property(TARGET ${BINARY} PROPERTY CXX_STANDARD 17)
@@ -23,10 +24,5 @@ target_include_directories(${BINARY} PRIVATE
 
 target_link_libraries(${BINARY} PUBLIC ${CMAKE_PROJECT_NAME}_lib gtest)
 
-if (MSVC)
-  add_custom_command(TARGET ${BINARY} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/tests/test_file.obj ${CMAKE_BINARY_DIR}/test_file.obj)
-else()
-  add_custom_command(TARGET ${BINARY} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/tests/test_file.obj ${CMAKE_BINARY_DIR}/test_file.obj)
-endif()
+add_custom_command(TARGET ${BINARY} POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/tests/test_file.obj ${CMAKE_BINARY_DIR}/test_file.obj)
