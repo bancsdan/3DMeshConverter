@@ -1,7 +1,9 @@
 #include <Eigen/Dense>
 
-#include "gtest/gtest.h"
 #include "geometry/meshdata.hpp"
+#include "gtest/gtest.h"
+
+using namespace Converter;
 
 class MeshDataTests : public ::testing::Test {
 protected:
@@ -54,13 +56,13 @@ protected:
 };
 
 TEST_F(MeshDataTests, TestCalculateSurfaceArea) {
-  EXPECT_DOUBLE_EQ(cube.calculateMeshSurfaceArea(), 24.0);
-  EXPECT_DOUBLE_EQ(double_pyramid.calculateMeshSurfaceArea(), 11.31370849898476);
+  EXPECT_DOUBLE_EQ(cube.calculateSurfaceArea(), 24.0);
+  EXPECT_DOUBLE_EQ(double_pyramid.calculateSurfaceArea(), 11.31370849898476);
 }
 
 TEST_F(MeshDataTests, TestCalculateVolume) {
-  EXPECT_DOUBLE_EQ(double_pyramid.calculateMeshVolume(), 8.0 / 3.0);
-  EXPECT_DOUBLE_EQ(cube.calculateMeshVolume(), 8.0);
+  EXPECT_DOUBLE_EQ(double_pyramid.calculateVolume(), 8.0 / 3.0);
+  EXPECT_DOUBLE_EQ(cube.calculateVolume(), 8.0);
 }
 
 TEST_F(MeshDataTests, TestIsPointInsideMesh) {
