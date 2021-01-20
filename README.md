@@ -47,7 +47,7 @@ Example on windows:
 ## Running the tests
 
 It is fairly simple, the only thing to pay attention to is that you have to run them from the build/ directory
-since Cmake copies a test file into the build directory.
+since CMake copies a test file into the build directory.
 
 ```
 ./path_to_tests_binary/converter_tests
