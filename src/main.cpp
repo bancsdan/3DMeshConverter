@@ -109,20 +109,18 @@ int main(int argc, char *argv[]) {
             {translation_args[0U], translation_args[1U], translation_args[2U]});
       }
 
-      Utility::transformMesh(mesh, translation_matrix, rotation_matrix,
-                             scale_matrix);
+      mesh.transform(translation_matrix, rotation_matrix, scale_matrix);
     }
 
     std::cout << std::setprecision(std::numeric_limits<double>::digits10)
-              << "Area: " << Utility::calculateMeshSurfaceArea(mesh)
-              << std::endl;
+              << "Area: " << mesh.calculateSurfaceArea() << std::endl;
     std::cout << std::setprecision(std::numeric_limits<double>::digits10)
-              << "Volume: " << Utility::calculateMeshVolume(mesh) << std::endl;
+              << "Volume: " << mesh.calculateVolume() << std::endl;
 
     if (is_point_inside_set) {
-      const bool is_inside = Utility::isPointInsideMesh(
-          mesh, {is_point_inside_args[0U], is_point_inside_args[1U],
-                 is_point_inside_args[2U], 1.0});
+      const bool is_inside = mesh.isPointInside(
+          {is_point_inside_args[0U], is_point_inside_args[1U],
+           is_point_inside_args[2U], 1.0});
       std::cout << "Point is" << (is_inside ? "" : " not")
                 << " inside the mesh." << std::endl;
     }

@@ -7,7 +7,7 @@
 
 namespace Converter {
 
-struct MeshData;
+class MeshData;
 
 class StlWriter : public IWriter {
 protected:

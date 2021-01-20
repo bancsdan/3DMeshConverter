@@ -1,6 +1,7 @@
 set(SOURCES
    ${SOURCES}
    ${CMAKE_CURRENT_SOURCE_DIR}/triangle.cpp
+   ${CMAKE_CURRENT_SOURCE_DIR}/meshdata.cpp
    PARENT_SCOPE
 )
 set(HEADERS

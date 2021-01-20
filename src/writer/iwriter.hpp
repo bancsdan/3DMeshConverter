@@ -6,7 +6,7 @@
 
 namespace Converter {
 
-struct MeshData;
+class MeshData;
 
 class IWriter {
 public:

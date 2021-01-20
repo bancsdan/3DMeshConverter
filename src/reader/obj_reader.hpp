@@ -12,7 +12,7 @@
 
 namespace Converter {
 
-struct MeshData;
+class MeshData;
 
 class ObjReader : public IReader {
 protected:
