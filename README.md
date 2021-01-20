@@ -1,8 +1,10 @@
 # 3DMeshConverter
 
 ## Cloning the repo
+
+You need to clone recursively, since the project uses GTest for testing.
 ```
-git clone --recursive
+git clone --recursive https://github.com/bancsdan/3DMeshConverter.git
 ```
 ## Building the converter
 
@@ -13,19 +15,8 @@ In the root of the project:
 ```
 mkdir build
 cd build
-cmake -G "Unix Makefiles" ..
-cmake --build .
-```
-
-#### On Windows:
-
-The --config parameter can be Debug or Release
-
-```
-mkdir build
-cd build
 cmake ..
-cmake --build . --config Release
+cmake --build .
 ```
 
 ## Using the converter
