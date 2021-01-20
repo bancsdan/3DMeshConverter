@@ -7,7 +7,6 @@
 #include <vector>
 
 #include "exception.hpp"
-#include "geometry/meshdata.hpp"
 #include "reader/supported_input_formats.hpp"
 #include "utility.hpp"
 #include "writer/supported_output_formats.hpp"

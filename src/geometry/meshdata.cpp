@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "meshdata.hpp"
-#include "triangle.hpp"
 
 namespace Converter {
 

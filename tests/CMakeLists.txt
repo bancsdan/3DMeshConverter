@@ -4,6 +4,7 @@ add_executable(${BINARY}
     main.cpp
     unittest_utility.cpp
     unittest_triangle.cpp
+    unittest_meshdata.cpp
     unittest_supported_output_formats.cpp
     unittest_supported_input_formats.cpp
     unittest_reader_factory.cpp

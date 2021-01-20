@@ -19,7 +19,6 @@ Eigen::Matrix4d getTranslationMatrix(const Eigen::Vector3d &translation);
 Eigen::Matrix4d getRotationMatrix(const Eigen::Vector3d &rotation_axis,
                                   double angle);
 Eigen::Matrix4d getScaleMatrix(const Eigen::Vector3d &scale);
-
 void transformVector(Eigen::Vector4d &point,
                      const Eigen::Matrix4d &transform_matrix);
 
