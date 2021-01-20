@@ -37,7 +37,7 @@ bool Triangle::operator==(const Triangle &other) const {
 }
 
 bool Triangle::isInside(const Eigen::Vector4d &point) const {
-  const auto &triangle_normal = getNormal();
+  const auto triangle_normal = getNormal();
 
   if (!Utility::isEqual((a.pos - point).dot(triangle_normal), 0.0)) {
     return false;
@@ -70,11 +70,10 @@ Triangle::rayIntersection(const Eigen::Vector4d &ray_starting_point,
     return {};
   }
 
-  const auto intersection_point =
-      ray_starting_point + t * ray_direction;
+  const auto intersection_point = ray_starting_point + t * ray_direction;
 
   if (isInside(intersection_point)) {
-	return {intersection_point};  
+    return {intersection_point};
   }
   return {};
 }

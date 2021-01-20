@@ -24,7 +24,7 @@ void displaySupportedFormats() {
   std::cout << std::endl;
 
   std::cout << "Currently supported output filetypes:" << std::endl;
-  for (const auto format_pair : Writer::supported_output_formats_map) {
+  for (const auto &format_pair : Writer::supported_output_formats_map) {
     std::cout << "\t" << format_pair.first << std::endl;
   }
   std::cout << std::endl;

@@ -48,9 +48,9 @@ void StlWriter::writeTriangles(std::ostream &out_file,
   const auto swapper_func = needs_byte_swap ? swap_byte_order : do_nothing;
 
   for (const auto &triangle : mesh.triangles) {
-    const auto &a_pos = triangle.a.pos.cast<float>();
-    const auto &b_pos = triangle.b.pos.cast<float>();
-    const auto &c_pos = triangle.c.pos.cast<float>();
+    const auto a_pos = triangle.a.pos.cast<float>();
+    const auto b_pos = triangle.b.pos.cast<float>();
+    const auto c_pos = triangle.c.pos.cast<float>();
 
     std::array<float, 9U> triangle_coords{
         swapper_func(a_pos.x()), swapper_func(a_pos.y()),

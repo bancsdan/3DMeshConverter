@@ -23,7 +23,7 @@ MeshData ObjReader::read(std::istream &in_file_stream) {
   std::vector<Eigen::Vector4d> vertex_textures;
 
   for (std::string line; std::getline(in_file_stream, line);) {
-    auto words_vect = Utility::splitString(line);
+    const auto words_vect = Utility::splitString(line);
 
     if (!words_vect.empty()) {
       if (Utility::startsWith(words_vect[0U], c_vn)) {

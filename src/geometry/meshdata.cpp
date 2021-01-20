@@ -31,7 +31,7 @@ bool MeshData::isPointInside(const Eigen::Vector4d &point) const {
       return true;
     }
 
-    const auto &intersection =
+    const auto intersection =
         triangle.rayIntersection(point, {0.0, 1.0, 0.0, 0.0});
 
     if (intersection) {
