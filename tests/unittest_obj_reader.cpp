@@ -12,6 +12,7 @@
 
 using namespace Converter;
 
+// Created to be able to test protected functions
 class ObjReaderTests : public ::testing::Test, public ObjReader {};
 
 TEST_F(ObjReaderTests, TestReadVector) {
@@ -45,10 +46,10 @@ TEST_F(ObjReaderTests, TestReadFace) {
 
   Eigen::Vector4d norm{0.0, 1.0, 0.0, 0.0};
 
-  Eigen::Vector4d at{0.0, 0.0, 0.0, 1.0};
-  Eigen::Vector4d bt{1.0, 0.0, 0.0, 1.0};
-  Eigen::Vector4d ct{1.0, 1.0, 0.0, 1.0};
-  Eigen::Vector4d dt{0.0, 1.0, 0.0, 1.0};
+  Eigen::Vector4d at{0.0, 0.0, 0.0, 0.0};
+  Eigen::Vector4d bt{1.0, 0.0, 0.0, 0.0};
+  Eigen::Vector4d ct{1.0, 1.0, 0.0, 0.0};
+  Eigen::Vector4d dt{0.0, 1.0, 0.0, 0.0};
 
   vertices.push_back(a);
   vertices.push_back(b);
@@ -57,10 +58,10 @@ TEST_F(ObjReaderTests, TestReadFace) {
 
   vertex_normals.push_back({0.0, 1.0, 0.0, 0.0});
 
-  vertex_textures.push_back({0.0, 0.0, 0.0, 1.0});
-  vertex_textures.push_back({1.0, 0.0, 0.0, 1.0});
-  vertex_textures.push_back({1.0, 1.0, 0.0, 1.0});
-  vertex_textures.push_back({0.0, 1.0, 0.0, 1.0});
+  vertex_textures.push_back({0.0, 0.0, 0.0, 0.0});
+  vertex_textures.push_back({1.0, 0.0, 0.0, 0.0});
+  vertex_textures.push_back({1.0, 1.0, 0.0, 0.0});
+  vertex_textures.push_back({0.0, 1.0, 0.0, 0.0});
 
   Triangle triangle_1{a, b, c};
   triangle_1.a.normal = norm;

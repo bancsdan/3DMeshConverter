@@ -34,7 +34,7 @@ TEST(TriangleTests, TestEqualityOperator) {
               Eigen::Vector4d{5.231, 4.16923, 8.739, 1.0},
               Eigen::Vector4d{11.684, 2.985, 1.194, 1.0});
   Triangle t2 = t1;
-  EXPECT_TRUE(t1 == t2);
+  EXPECT_EQ(t1, t2);
 
   t2.c.pos[2U] = 8.9;
   EXPECT_FALSE(t1 == t2);

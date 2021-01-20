@@ -7,11 +7,11 @@
 
 using namespace Converter;
 
+// Created to be able to test protected functions
 class StlWriterTests : public ::testing::Test, public StlWriter {};
 
 TEST_F(StlWriterTests, TestWriteHeader) {
   std::ostringstream oss;
-  EXPECT_EQ(oss.str().size(), 0U);
   writeHeader(oss);
   EXPECT_EQ(oss.str().size(), 80U);
 }
@@ -24,7 +24,6 @@ TEST_F(StlWriterTests, TestWriteNumOfTriangles) {
   mesh.triangles.push_back({});
   mesh.triangles.push_back({});
   mesh.triangles.push_back({});
-  EXPECT_EQ(oss.str().size(), 0U);
 
   writeNumOfTriangles(oss, mesh);
   const std::string num_of_triangles_str = oss.str();
@@ -48,7 +47,6 @@ TEST_F(StlWriterTests, TestWriteTriangles) {
   mesh.triangles.push_back(triangle);
 
   std::ostringstream oss;
-  EXPECT_EQ(oss.str().size(), 0U);
   writeTriangles(oss, mesh);
   EXPECT_EQ(oss.str().size(), 100U);
 
@@ -60,17 +58,17 @@ TEST_F(StlWriterTests, TestWriteTriangles) {
   EXPECT_FLOAT_EQ(current_data[1], (float)triangle.a.normal.y());
   EXPECT_FLOAT_EQ(current_data[2], (float)triangle.a.normal.z());
 
-  // read m_a vertex
+  // read a vertex
   EXPECT_FLOAT_EQ(current_data[3], (float)triangle.a.pos.x());
   EXPECT_FLOAT_EQ(current_data[4], (float)triangle.a.pos.y());
   EXPECT_FLOAT_EQ(current_data[5], (float)triangle.a.pos.z());
 
-  // read m_b vertex
+  // read b vertex
   EXPECT_FLOAT_EQ(current_data[6], (float)triangle.b.pos.x());
   EXPECT_FLOAT_EQ(current_data[7], (float)triangle.b.pos.y());
   EXPECT_FLOAT_EQ(current_data[8], (float)triangle.b.pos.z());
 
-  // read m_c vertex
+  // read c vertex
   EXPECT_FLOAT_EQ(current_data[9], (float)triangle.c.pos.x());
   EXPECT_FLOAT_EQ(current_data[10], (float)triangle.c.pos.y());
   EXPECT_FLOAT_EQ(current_data[11], (float)triangle.c.pos.z());

@@ -52,16 +52,12 @@ void StlWriter::writeTriangles(std::ostream &out_file,
     const auto &b_pos = triangle.b.pos.cast<float>();
     const auto &c_pos = triangle.c.pos.cast<float>();
 
-    std::array<float, 9U> triangle_coords;
-    triangle_coords[0U] = swapper_func(a_pos.x());
-    triangle_coords[1U] = swapper_func(a_pos.y());
-    triangle_coords[2U] = swapper_func(a_pos.z());
-    triangle_coords[3U] = swapper_func(b_pos.x());
-    triangle_coords[4U] = swapper_func(b_pos.y());
-    triangle_coords[5U] = swapper_func(b_pos.z());
-    triangle_coords[6U] = swapper_func(c_pos.x());
-    triangle_coords[7U] = swapper_func(c_pos.y());
-    triangle_coords[8U] = swapper_func(c_pos.z());
+    std::array<float, 9U> triangle_coords{
+        swapper_func(a_pos.x()), swapper_func(a_pos.y()),
+        swapper_func(a_pos.z()), swapper_func(b_pos.x()),
+        swapper_func(b_pos.y()), swapper_func(b_pos.z()),
+        swapper_func(c_pos.x()), swapper_func(c_pos.y()),
+        swapper_func(c_pos.z())};
 
     Eigen::Vector4f cross = (triangle.b.pos - triangle.a.pos)
                                 .cross3(triangle.c.pos - triangle.a.pos)

@@ -74,10 +74,7 @@ TEST(UtilityTests, TestToLower) {
 }
 
 TEST(UtilityTests, TestSplitString) {
-  std::vector<std::string> expected_result;
-  expected_result.push_back("Abc");
-  expected_result.push_back("def");
-  expected_result.push_back("ghi!");
+  std::vector<std::string> expected_result{"Abc", "def", "ghi!"};
 
   auto result = splitString("Abc def ghi!");
   EXPECT_EQ(result, expected_result);
@@ -160,32 +157,32 @@ TEST(UtilityTests, TestRayTriangleIntersection) {
   Eigen::Vector4d ray_start_point{0.0, 0.0, 0.5, 1.0};
   Eigen::Vector4d ray_dir{0.0, -1.0, 0.0, 0.0};
   auto hit = rayTriangleIntersection(ray_start_point, ray_dir, triangle);
-  EXPECT_FALSE(hit);
+  EXPECT_FALSE(hit.has_value());
 
   ray_start_point = {0.0, 0.0, 0.5, 1.0};
   ray_dir = {0.0, 1.0, 0.0, 0.0};
   hit = rayTriangleIntersection(ray_start_point, ray_dir, triangle);
-  EXPECT_TRUE(hit.value().isApprox(Eigen::Vector4d{0.0, 1.0, 0.5, 1.0}));
+  EXPECT_TRUE(hit->isApprox(Eigen::Vector4d{0.0, 1.0, 0.5, 1.0}));
 
   ray_start_point = {1.0, 0.0, 0.0, 1.0};
   ray_dir = {0.0, 1.0, 0.0, 0.0};
   hit = rayTriangleIntersection(ray_start_point, ray_dir, triangle);
-  EXPECT_TRUE(hit.value().isApprox(a));
+  EXPECT_TRUE(hit->isApprox(a));
 
   ray_start_point = {1.001, 0.0, 0.0, 1.0};
   ray_dir = {0.0, 1.0, 0.0, 0.0};
   hit = rayTriangleIntersection(ray_start_point, ray_dir, triangle);
-  EXPECT_FALSE(hit);
+  EXPECT_FALSE(hit.has_value());
 
   ray_start_point = {0.0, 1.0, 0.5, 1.0};
   ray_dir = {0.0, 1.0, 0.0, 0.0};
   hit = rayTriangleIntersection(ray_start_point, ray_dir, triangle);
-  EXPECT_TRUE(hit.value().isApprox(ray_start_point));
+  EXPECT_TRUE(hit->isApprox(ray_start_point));
 
   ray_start_point = {0.2, 0.1, 0.4, 1.0};
   ray_dir = {-0.3, 0.8, -0.2, 0.0};
   hit = rayTriangleIntersection(ray_start_point, ray_dir, triangle);
-  EXPECT_TRUE(hit.value().isApprox(Eigen::Vector4d{-0.1375, 1.0, 0.175, 1.0}));
+  EXPECT_TRUE(hit->isApprox(Eigen::Vector4d{-0.1375, 1.0, 0.175, 1.0}));
 }
 
 TEST(UtilityTests, TestIsInsideTriangle) {
